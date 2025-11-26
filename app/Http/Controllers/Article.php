@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Illuminate\Http\Request;
 use App\Models\Article as ArticleBdd;
 
@@ -13,7 +14,8 @@ class Article extends Controller
         return view('articles', ['articles' => $articles]);
     }
 
-    public function create() {
+    public function create()
+    {
         $categories = [
             'actualite',
             'culture',

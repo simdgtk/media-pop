@@ -15,7 +15,7 @@
         <p><strong>Auteur :</strong> {{ $article->author }}</p>
         <p><strong>Catégorie :</strong> {{ $article->category }}</p>
         @if($article->image)
-            <img src="{{ $article->image }}" alt="Image de l'article" />
+        <img src="{{ $article->image }}" alt="Image de l'article" />
         @endif
         <p>{{ $article->content }}</p>
     </div>

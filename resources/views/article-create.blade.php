@@ -33,7 +33,7 @@
             <select name="category" id="category">
                 <option value="">Choisir une catégorie</option>
                 @foreach ($categories as $category)
-                    <option value="{{ $category }}">{{ ucfirst(str_replace('_', ' ', $category)) }}</option>
+                <option value="{{ $category }}">{{ ucfirst(str_replace('_', ' ', $category)) }}</option>
                 @endforeach
             </select>
         </div>
