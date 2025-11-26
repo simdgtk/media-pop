@@ -7,20 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Article extends Model
 {
-    /** @use HasFactory<\Database\Factories\ArticleFactory> */
     use HasFactory;
 
-    // Allowed category types
     public const CATEGORY_MUSIC = 'music';
     public const CATEGORY_CINEMA = 'cinema';
     public const CATEGORY_VIDEO_GAMES = 'video_games';
     public const CATEGORY_ART = 'art';
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
         'title',
         'author',
@@ -30,11 +23,6 @@ class Article extends Model
         'category',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
     protected function casts(): array
     {
         return [
@@ -43,11 +31,6 @@ class Article extends Model
         ];
     }
 
-    /**
-     * Return available categories as array.
-     *
-     * @return string[]
-     */
     public static function availableCategories(): array
     {
         return [
