@@ -57,3 +57,23 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+## Local admin account (for collaborators)
+
+If you're sharing this repo with collaborators and want an easy way to sign in as an admin during local development, use the built-in seeder and scripts:
+
+- `.env.example` includes example admin env vars: `ADMIN_NAME`, `ADMIN_EMAIL`, and `ADMIN_PASSWORD`. When you run the recommended setup (copy `.env.example` to `.env`), those values provide a safe local default.
+- Run migrations and seeds locally to create the admin account:
+
+```bash
+php artisan migrate --seed
+```
+
+- Or create/update an admin on any environment manually with the helper script:
+
+```bash
+php scripts/create_admin.php admin@example.com ChangeMe123! "Administrator"
+```
+
+Security note:
+- These defaults are meant for local development and CI/testing only. Do not commit real credentials to your repository or use the same password in production. For production, create admin users manually with secure passwords.
