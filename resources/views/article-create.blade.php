@@ -5,6 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Créer un article</title>
+
+    <head>
+        @vite(['resources/css/main.scss', 'resources/js/app.js'])
+    </head>
 </head>
 
 <body>
