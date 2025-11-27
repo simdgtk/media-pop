@@ -21,6 +21,9 @@ class Article extends Model
         'content',
         'image',
         'category',
+        'source_title',
+        'source_url',
+        'selected_words',
     ];
 
     protected function casts(): array
@@ -28,6 +31,7 @@ class Article extends Model
         return [
             'published_at' => 'datetime',
             'category' => 'array',
+            'selected_words' => 'array',
         ];
     }
 
