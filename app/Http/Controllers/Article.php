@@ -65,4 +65,10 @@ class Article extends Controller
 
         return redirect('/articles');
     }
+    public function destroy($id)
+    {
+        $article = ArticleBdd::findOrFail($id);
+        $article->delete();
+        return redirect('/articles')->with('success', 'Article supprimé avec succès.');
+    }
 }

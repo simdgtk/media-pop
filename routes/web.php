@@ -30,5 +30,6 @@ Route::get('/', function () {
 Route::get('/article/create', [Article::class, 'create']);
 Route::post('/article', [Article::class, 'store']);
 Route::get('/articles', [Article::class, 'index']);
+Route::delete('/article/{id}', [Article::class, 'destroy']);
 
 require __DIR__.'/auth.php';

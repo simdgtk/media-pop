@@ -18,6 +18,11 @@
         <img src="{{ $article->image_url }}" alt="Image de l'article" />
         @endif
         <p>{{ $article->content }}</p>
+        <form action="/article/{{ $article->id }}" method="POST" style="display:inline">
+            @csrf
+            @method('DELETE')
+            <button type="submit" onclick="return confirm('Supprimer cet article ?')">Supprimer</button>
+        </form>
     </div>
     @endforeach
 </body>
