@@ -31,6 +31,15 @@ class Article extends Model
         ];
     }
 
+    public function getImageURLAttribute(): ?string
+    {
+        if (!$this->image) {
+            return null;
+        }
+
+        return asset('storage/' . $this->image);
+    }
+
     public static function availableCategories(): array
     {
         return [

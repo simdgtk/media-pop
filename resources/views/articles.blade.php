@@ -13,9 +13,9 @@
     <div class="article">
         <h2>{{ $article->title }}</h2>
         <p><strong>Auteur :</strong> {{ $article->author }}</p>
-        <p><strong>Catégorie :</strong> {{ $article->category }}</p>
-        @if($article->image)
-        <img src="{{ $article->image }}" alt="Image de l'article" />
+        <p><strong>Catégorie :</strong> {{ is_array($article->category) ? implode(', ', $article->category) : $article->category }}</p>
+        @if($article->image_url)
+        <img src="{{ $article->image_url }}" alt="Image de l'article" />
         @endif
         <p>{{ $article->content }}</p>
     </div>

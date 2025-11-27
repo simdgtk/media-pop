@@ -10,7 +10,7 @@
 <body>
     <h1>Créer un nouvel article</h1>
 
-    <form action="/article" method="POST">
+    <form action="/article" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="attribute">
             <label for="title">Titre :</label><br>
@@ -22,12 +22,11 @@
         </div>
         <div class="attribute">
             <label for="image">Image :</label><br>
-            <input type="text" id="image" name="image" required>
+            <input type="file" id="image" name="image" accept="image/*">
         </div>
         <div class="attribute">
-            <label for="category">Catégorie :</label><br>
-            <select name="category" id="category">
-                <option value="">Choisir une catégorie</option>
+            <label for="category">Catégories :</label><br>
+            <select name="category[]" id="category" multiple size="4">
                 @foreach ($categories as $category)
                 <option value="{{ $category }}">{{ ucfirst(str_replace('_', ' ', $category)) }}</option>
                 @endforeach
@@ -35,7 +34,7 @@
         </div>
         <div class="attribute">
             @if(isset($rssBigTitles))
-            <select name="title" id="select-title">
+            <select id="select-title">
                 <option value="">--- Les gros titres ---</option>
                 @foreach ($rssBigTitles as $item)
                 <option value="{{ $item['link'] }}">{{ $item['title'] }}</option>
