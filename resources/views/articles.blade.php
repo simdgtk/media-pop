@@ -9,6 +9,9 @@
 
 <body>
     <h1>Liste des articles</h1>
+    @if(session('success'))
+        <div style="color:green; margin-bottom:1rem">{{ session('success') }}</div>
+    @endif
     @foreach($articles as $article)
     <div class="article">
         <h2>{{ $article->title }}</h2>
@@ -23,6 +26,9 @@
             @method('DELETE')
             <button type="submit" onclick="return confirm('Supprimer cet article ?')">Supprimer</button>
         </form>
+        <a href="/article/{{ $article->id }}/edit">
+            <button type="button">Modifier</button>
+        </a>
     </div>
     @endforeach
 </body>
