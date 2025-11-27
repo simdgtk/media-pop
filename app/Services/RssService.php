@@ -10,7 +10,7 @@ class RssService
     public function fetch(string $url): array
     {
         try {
-            $response = Http::get($url);
+            $response = Http::withoutVerifying()->get($url);
 
             if ($response->successful()) {
                 $xml = new SimpleXMLElement($response->body());
