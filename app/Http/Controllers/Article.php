@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Models\Article as ArticleBdd;
 use App\Services\RssService;
 
-
 class Article extends Controller
 {
     public function index()
@@ -38,14 +37,30 @@ class Article extends Controller
         return view('article-create', compact('categories', 'rssBigTitles', 'rssCultureTitles', 'rssInternetTitles', 'rssMusiqueTitles', 'rssCinemaTitles', 'rssSportTitles'));
     }
 
+
+
     public function store(Request $request)
     {
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'author' => 'required|string|max:255',
+            'content' => 'required|string',
+            'category' => 'required|array',
+            'category.*' => 'string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048'
+        ]);
+
+        $imagePath = null;
+        if ($request->hasFile('image') && $request->file('image')->isValid()) {
+            $imagePath = $request->file('image')->store('images', 'public');
+        }
+
         $article = ArticleBdd::create([
-            'title' => $request->title,
-            'author' => $request->author,
-            'content' => $request->content,
-            'image' => $request->image,
-            'category' => $request->category,
+            'title' => $validated['title'],
+            'author' => $validated['author'],
+            'content' => $validated['content'],
+            'category' => $validated['category'],
+            'image' => $imagePath
         ]);
 
         return redirect('/articles');
