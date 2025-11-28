@@ -1,4 +1,3 @@
-Route::put('/article/{id}', [Article::class, 'update']);
 <?php
 
 use App\Http\Controllers\ProfileController;
@@ -32,6 +31,5 @@ Route::get('/article/create', [Article::class, 'create']);
 Route::post('/article', [Article::class, 'store']);
 Route::get('/articles', [Article::class, 'index']);
 Route::delete('/article/{id}', [Article::class, 'destroy']);
-Route::get('/article/{id}/edit', [Article::class, 'edit']);
 
 require __DIR__.'/auth.php';
