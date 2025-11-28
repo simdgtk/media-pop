@@ -74,6 +74,10 @@
             </select>
             <p>article choisi : <span id="selected-article"></span></p>
             <p>mots choisis : <span id="selected-words"></span></p>
+            <input type="hidden" name="selected_article" id="input-selected-article">
+            <input type="hidden" name="selected_article_url" id="input-selected-article-url">
+            <input type="hidden" name="selected_words" id="input-selected-words">
+
         </div>
         <div class="attribute">
             <label for="content">Contenu :</label><br>
@@ -101,6 +105,9 @@
             const selectedText = this.options[this.selectedIndex].text;
             const selectedValue = this.value;
 
+            document.getElementById('input-selected-article').value = selectedText;
+            document.getElementById('input-selected-article-url').value = selectedValue;
+
             const articleContainer = document.getElementById('selected-article');
             const wordsContainer = document.getElementById('selected-words');
 
@@ -108,8 +115,12 @@
 
             if (selectedValue) {
                 articleContainer.textContent = selectedText;
+
+                document.getElementById('input-selected-article').value = selectedText;
+
             } else {
                 articleContainer.textContent = '';
+                document.getElementById('input-selected-article').value = '';
             }
         });
 
@@ -120,22 +131,25 @@
 
         document.getElementById('selected-article').addEventListener('mouseup', function() {
             const selectedText = getSelectionText();
+
             if (selectedText) {
                 const wordsContainer = document.getElementById('selected-words');
-                const words = selectedText.split(' ');
+                const words = selectedText.split(' ').filter(w => w.trim());
+
+                wordsContainer.innerHTML = '';
 
                 words.forEach(word => {
-                    if (word.trim()) {
-                        const wordSpan = document.createElement('span');
-                        wordSpan.className = 'word';
-                        wordSpan.textContent = word;
+                    const wordSpan = document.createElement('span');
+                    wordSpan.className = 'word';
+                    wordSpan.textContent = word;
 
-                        if (wordsContainer.innerHTML) {
-                            wordsContainer.appendChild(document.createTextNode(' '));
-                        }
-                        wordsContainer.appendChild(wordSpan);
+                    if (wordsContainer.innerHTML) {
+                        wordsContainer.appendChild(document.createTextNode(' '));
                     }
+                    wordsContainer.appendChild(wordSpan);
                 });
+
+                document.getElementById('input-selected-words').value = JSON.stringify(words);
             }
         });
     </script>
