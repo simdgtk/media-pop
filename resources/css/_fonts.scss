@@ -1,0 +1,50 @@
+@use "variables" as *;
+@use "utils" as *;
+
+@font-face {
+    font-family: 'Instrument Sans';
+    src: url('../fonts/InstrumentSans-Regular.woff2') format('woff2'),
+        url('../fonts/InstrumentSans-Regular.woff') format('woff'),
+        url('../fonts/InstrumentSans-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Instrument Sans';
+    src: url('../fonts/InstrumentSans-Italic.woff2') format('woff2'),
+        url('../fonts/InstrumentSans-Italic.woff') format('woff'),
+        url('../fonts/InstrumentSans-Italic.ttf') format('truetype');
+    font-weight: 400;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Font1';
+    src: url('../fonts/PPFrama-Regular.woff2') format('woff2'),
+        url('../fonts/PPFrama-Regular.woff') format('woff'),
+        url('../fonts/PPFrama-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Font1';
+    src: url('../fonts/PPFrama-Black.woff2') format('woff2'),
+        url('../fonts/PPFrama-Black.woff') format('woff'),
+        url('../fonts/PPFrama-Black.ttf') format('truetype');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+h2 {
+    font-family: 'Font1', sans-serif;
+    font-weight: 900;
+    font-size: toRem(28);
+    text-transform: uppercase;
+    line-height: 100%;
+}

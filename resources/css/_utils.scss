@@ -7,3 +7,16 @@
 
   @return math.div($px, 16)+rem;
 }
+
+%container {
+  width: 100%;
+  max-width: 1440px;
+  margin-inline: auto;
+  padding-inline: toRem(20);
+}
+
+%grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: toRem(20);
+}

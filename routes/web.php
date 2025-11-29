@@ -6,7 +6,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Article;
 
 Route::get('/', function () {
-    return view('welcome');
+    $article = \App\Models\Article::first();
+    $newsTitle = $article ? $article->title : 'Actualités du jour';
+    return view('welcome', ['newsTitle' => $newsTitle]);
 });
 
 Route::get('/dashboard', function () {
@@ -21,10 +23,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
-
-Route::get('/', function () {
-    return view('welcome');
 });
 
 Route::get('/article/create', [Article::class, 'create']);

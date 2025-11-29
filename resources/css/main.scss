@@ -1,8 +1,14 @@
+@use "fonts" as *;
 @use "reset" as *;
 @use "variables" as *;
 @use "utils" as *;
-@use "typography" as *;
 
 * {
     scroll-behavior: smooth;
+    font-family: 'Instrument Sans', sans-serif;
+}
+
+
+body {
+    background-color: $background-color;
 }
