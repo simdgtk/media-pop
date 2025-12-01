@@ -25,7 +25,7 @@ defineProps<{
     color: currentColor;
     pointer-events: all;
     cursor: pointer;
-    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out, transform 0.1s ease-in-out;
+    transition: background-color 0.1s ease-in-out, color 0.1s ease-in-out, transform 0.1s ease-in-out;
     font-size: toRem(16);
     display: flex;
     align-items: center;
