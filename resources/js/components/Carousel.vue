@@ -11,7 +11,20 @@
           <h3 class="article-name">{{ article.title }}</h3>
         </div>
       </div>
+      <div class="embla__slide article">
+        <div class="image-container">
+            <img src="https://images.unsplash.com/photo-1761839258753-85d8eecbbc29?q=80&w=3270&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                alt="Article Image" />
+        </div>
+        <div class="article-names">
+            <p class="external-article-name">Comment le drapeau de <span class="highlight">One Piece</span> est
+                devenu un symbole de révolte
+                chez la Gen Z ?</p>
+            <h3 class="article-name">Ou quels sont les messages cachés derrière cette oeuvre ? </h3>
+        </div>
     </div>
+    </div>
+    
     <Mo class="icon-background" />
   </div>
 </template>
