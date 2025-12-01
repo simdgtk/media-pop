@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use App\Models\Article as ArticleBdd;
 use App\Services\RssService;
 
@@ -67,10 +68,12 @@ class Article extends Controller
             $imagePath = $request->file('image')->store('images', 'public');
         }
         
-        $selectedWords = null;
-        if ($request->selected_words) {
-            $decoded = json_decode($request->selected_words, true);
-            $selectedWords = is_array($decoded) ? $decoded : [$request->selected_words];
+        $selectedWordsString = null;
+        if ($request->filled('selected_words')) {
+            $selectedWordsString = trim((string) $request->input('selected_words'));
+            if ($selectedWordsString === '') {
+                $selectedWordsString = null;
+            }
         }
 
         $article = ArticleBdd::create([
@@ -81,7 +84,7 @@ class Article extends Controller
             'image' => $imagePath,
             'source_title' => $validated['selected_article'] ?? null,
             'source_url' => $validated['selected_article_url'] ?? null,
-            'selected_words' => $selectedWords
+            'selected_words' => $selectedWordsString
         ]);
 
         return redirect('/articles')->with('success', 'Article créé avec succès !');
@@ -95,4 +98,51 @@ class Article extends Controller
 
         return redirect('/articles')->with('success', 'Article supprimé avec succès.');
     }
+
+    public function latest()
+    {
+        $articles = ArticleBdd::orderByDesc('created_at')
+            ->limit(5)
+            ->get();
+
+        $payload = $articles->map(function ($article) {
+            return [
+                'id' => $article->id,
+                'title' => $article->title,
+                'source_title' => $article->source_title ? $this->highlightWords($article->source_title, $article->selected_words) : '',
+                'excerpt' => Str::limit(strip_tags($article->content), 140),
+                'image_url' => $article->image_url,
+                'source_url' => $article->source_url,
+                'created_at' => $article->created_at,
+            ];
+        });
+
+        return response()->json($payload);
+    }
+
+    private function highlightWords(?string $text, ?string $words): ?string
+    {
+        if (!$text || !$words) {
+            return $text;
+        }
+
+        $list = preg_split('/\s+/', trim($words));
+
+        foreach ($list as $word) {
+            if ($word === '') continue;
+
+            $escaped = preg_quote($word, '/');
+
+            $text = preg_replace(
+                '/(' . $escaped . ')/iu',
+                '<span class="highlight">$1</span>',
+                $text
+            );
+        }
+
+        return $text;
+    }
+
+
+
 }

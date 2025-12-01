@@ -31,7 +31,7 @@ class Article extends Model
         return [
             'published_at' => 'datetime',
             'category' => 'array',
-            'selected_words' => 'array',
+            'selected_words' => 'string',
         ];
     }
 

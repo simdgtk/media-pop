@@ -28,6 +28,7 @@ Route::middleware('auth')->group(function () {
 Route::get('/article/create', [Article::class, 'create']);
 Route::post('/article', [Article::class, 'store']);
 Route::get('/articles', [Article::class, 'index']);
+Route::get('/articles/latest', [Article::class, 'latest']);
 Route::delete('/article/{id}', [Article::class, 'destroy']);
 
 require __DIR__.'/auth.php';

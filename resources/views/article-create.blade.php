@@ -133,25 +133,14 @@
             const selectedText = getSelectionText();
 
             if (selectedText) {
+
                 const wordsContainer = document.getElementById('selected-words');
-                const words = selectedText.split(' ').filter(w => w.trim());
+                wordsContainer.textContent = selectedText;
 
-                wordsContainer.innerHTML = '';
-
-                words.forEach(word => {
-                    const wordSpan = document.createElement('span');
-                    wordSpan.className = 'word';
-                    wordSpan.textContent = word;
-
-                    if (wordsContainer.innerHTML) {
-                        wordsContainer.appendChild(document.createTextNode(' '));
-                    }
-                    wordsContainer.appendChild(wordSpan);
-                });
-
-                document.getElementById('input-selected-words').value = JSON.stringify(words);
+                document.getElementById('input-selected-words').value = selectedText;
             }
         });
+
     </script>
 </body>
 
