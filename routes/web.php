@@ -11,6 +11,11 @@ Route::get('/', function () {
     return view('welcome', ['newsTitle' => $newsTitle]);
 });
 
+Route::get('/article-test', function () {
+    $article = \App\Models\Article::first();
+    $newsTitle = $article ? $article->title : 'Actualités du jour';
+    return view('article-test', ['newsTitle' => $newsTitle]);
+});
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');

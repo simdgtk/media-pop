@@ -1,17 +1,15 @@
 <template>
-  <button class="button" @click="isOpen = true">
-    <Filter />
-    filtres et tri
+  <button class="button" :class="{ 'reverse': reverse }">
+    <slot name="icon"></slot>
+    <slot>{{ text }}</slot>
   </button>
-  <Popoup :isOpen="isOpen" @close="isOpen = false" />
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
-import Filter from './components/icons/Filter.vue';
-import Popoup from './components/Popup.vue';
-
-const isOpen = ref(false);
+defineProps<{
+  text?: string;
+  reverse?: boolean;
+}>();
 
 
 </script>
@@ -24,7 +22,7 @@ const isOpen = ref(false);
     background-color: $lime;
     width: fit-content;
     border-radius: 999px;
-    color: $blue;
+    color: currentColor;
     pointer-events: all;
     cursor: pointer;
     transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out, transform 0.1s ease-in-out;
@@ -36,9 +34,13 @@ const isOpen = ref(false);
     backface-visibility: hidden;
     transform: translateZ(0);
 
-    svg {
+    :deep(svg) {
         width: toRem(16);
         height: toRem(16);
+    }
+
+    &.reverse {
+        flex-direction: row-reverse;
     }
 
     &:hover {
