@@ -3,8 +3,13 @@
         <section class="categories">
             <h2>Catégories</h2>
             <div class="filters">
-                <Button />
+                <Button class="button" text="filtres et tri" @click="isOpen = true">
+                    <template #icon>
+                        <Filter />
+                    </template>
+                </Button>
             </div>
+            <Popup :isOpen="isOpen" @close="isOpen = false" />
             <div class="title-extended-container">
                 <h3 class="title-extended">musique</h3>
                 <div aria-hidden="true" role="presentation" class="border"></div>
@@ -15,8 +20,13 @@
 </template>
 
 <script lang="ts" setup>
+import { ref } from 'vue';
 import Carousel from '../Carousel.vue';
 import Button from '../../Button.vue';
+import Filter from '../icons/Filter.vue';
+import Popup from '../Popup.vue';
+
+const isOpen = ref(false);
 
 </script>
 
@@ -48,6 +58,10 @@ import Button from '../../Button.vue';
 
     .filters {
         margin-left: toRem(20);
+
+        .button {
+            color: $blue;
+        }
     }
 
     .title-extended-container {

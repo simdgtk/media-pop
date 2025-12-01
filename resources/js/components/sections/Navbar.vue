@@ -1,8 +1,8 @@
 <template>
     <nav class="navbar">
-        <div class="logo-container">
+        <a href="/" class="logo-container">
             <Logo class="logo" />
-        </div>
+        </a>
         <div class="burger-menu">
             <Burger />
         </div>
