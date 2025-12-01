@@ -99,26 +99,33 @@ class Article extends Controller
         return redirect('/articles')->with('success', 'Article supprimé avec succès.');
     }
 
-    public function latest()
+    public function latest(Request $request)
     {
-        $articles = ArticleBdd::orderByDesc('created_at')
-            ->limit(5)
-            ->get();
+        $query = ArticleBdd::orderByDesc('created_at')->limit(5);
+
+        if ($request->has('category') && $request->category) {
+            $category = $request->category;
+            $query->whereJsonContains('category', $category);
+        }
+
+        $articles = $query->get();
 
         $payload = $articles->map(function ($article) {
             return [
                 'id' => $article->id,
                 'title' => $article->title,
                 'source_title' => $article->source_title ? $this->highlightWords($article->source_title, $article->selected_words) : '',
-                'excerpt' => Str::limit(strip_tags($article->content), 140),
+                'excerpt' => \Illuminate\Support\Str::limit(strip_tags($article->content), 140),
                 'image_url' => $article->image_url,
                 'source_url' => $article->source_url,
                 'created_at' => $article->created_at,
+                'category' => $article->category,
             ];
         });
 
         return response()->json($payload);
     }
+
 
     private function highlightWords(?string $text, ?string $words): ?string
     {

@@ -11,10 +11,10 @@
             </div>
             <Popup :isOpen="isOpen" @close="isOpen = false" />
             <div class="title-extended-container">
-                <h3 class="title-extended">musique</h3>
+                <h3 class="title-extended">politique</h3>
                 <div aria-hidden="true" role="presentation" class="border"></div>
             </div>
-            <Carousel />
+            <Carousel category="politique" />
         </section>
     </div>
 </template>
