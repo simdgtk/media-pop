@@ -29,7 +29,7 @@ import Logo from '../icons/Logo.vue';
     .logo-container {
         width: toRem(68);
         .logo {
-            color: $yellow;
+            color: $lime;
         }
     }
 

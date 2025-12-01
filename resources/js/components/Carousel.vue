@@ -123,7 +123,7 @@ const [emblaRef] = emblaCarouselVue()
             line-height: 95%;
 
             .highlight {
-                background-color: $yellow;
+                background-color: $lime;
                 color: $red;
                 padding: 0 toRem(2);
             }

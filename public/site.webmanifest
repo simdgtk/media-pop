@@ -1,21 +1,75 @@
 {
-  "name": "Mopop",
-  "short_name": "Mopop",
+  "id": "/",
+  "scope": "/",
+  "name": "mopup",
+  "display": "standalone",
+  "start_url": "/",
+  "short_name": "mopup",
+  "theme_color": "#FD494A",
+  "description": "Mopup : L'actualité pour les jeunes, expliquée à la source. Culture pop, cinéma, art et décryptage de l'info.",
+  "orientation": "any",
+  "background_color": "#FD494A",
+  "related_applications": [],
+  "prefer_related_applications": false,
+  "display_override": [
+    "window-controls-overlay"
+  ],
+  "launch_handler": {
+    "client_mode": "focus-existing"
+  },
   "icons": [
     {
-      "src": "/web-app-manifest-192x192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "maskable"
+      "src": "web-app-manifest-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
     },
     {
-      "src": "/web-app-manifest-512x512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "maskable"
+      "src": "web-app-manifest-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "favicon-96x96.png",
+      "sizes": "96x96",
+      "type": "image/png"
     }
   ],
-  "theme_color": "#FD494A",
-  "background_color": "#FD494A",
-  "display": "standalone"
+  "screenshots": [
+    {
+      "src": "rich-install-ui.jpg",
+      "sizes": "632x970",
+      "type": "image/jpg",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "rich-install-ui.jpg",
+      "sizes": "632x970",
+      "type": "image/jpg",
+      "form_factor": "wide"
+    }
+  ],
+  "features": [
+    "Actualités jeunes",
+    "Culture pop",
+    "Décryptage info"
+  ],
+  "categories": [
+    "news",
+    "education",
+    "entertainment"
+  ],
+  "shortcuts": [
+    {
+      "name": "À propos",
+      "short_name": "À propos",
+      "description": "En savoir plus sur Mopup",
+      "url": "/about",
+      "icons": [
+        {
+          "src": "web-app-manifest-192x192.png",
+          "sizes": "192x192"
+        }
+      ]
+    }
+  ]
 }
