@@ -167,7 +167,7 @@ const filteredArticles = computed(() => articles.value);
             font-size: toRem(14);
             line-height: 95%;
 
-            .highlight {
+            :deep(.highlight) {
                 background-color: $lime;
                 color: $red;
                 padding: 0 toRem(2);

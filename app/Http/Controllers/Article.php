@@ -133,19 +133,13 @@ class Article extends Controller
             return $text;
         }
 
-        $list = preg_split('/\s+/', trim($words));
+        $escaped = preg_quote($words, '/');
 
-        foreach ($list as $word) {
-            if ($word === '') continue;
-
-            $escaped = preg_quote($word, '/');
-
-            $text = preg_replace(
-                '/(' . $escaped . ')/iu',
-                '<span class="highlight">$1</span>',
-                $text
-            );
-        }
+        $text = preg_replace(
+            '/(' . $escaped . ')/iu',
+            '<span class="highlight">$1</span>',
+            $text
+        );
 
         return $text;
     }
