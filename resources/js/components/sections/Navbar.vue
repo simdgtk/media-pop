@@ -1,12 +1,8 @@
 <template>
     <nav class="navbar">
         <a href="/" class="logo-container" @click.prevent="triggerAnimation">
-            <!-- <Logo class="logo" /> -->
              <LogoAnimated ref="logoRef" class="logo" />
         </a>
-        <div class="burger-menu">
-            <Burger />
-        </div>
     </nav>
 </template>
 

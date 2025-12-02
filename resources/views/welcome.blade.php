@@ -30,6 +30,7 @@
         <navbar></navbar>
         <news title="{{ $newsTitle }}"></news>
         <categories></categories>
+        <navbar-bottom></navbar-bottom>
     </div>
     <header class="w-full lg:max-w-4xl max-w-[335px] text-sm mb-6 not-has-[nav]:hidden">
         @if (Route::has('login'))
