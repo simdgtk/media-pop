@@ -16,6 +16,11 @@ Route::get('/article-test', function () {
     $newsTitle = $article ? $article->title : 'Actualités du jour';
     return view('article-test', ['newsTitle' => $newsTitle]);
 });
+
+Route::get('/search', function () {
+    return view('search');
+});
+
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
