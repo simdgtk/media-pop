@@ -1,7 +1,8 @@
 <template>
     <nav class="navbar">
-        <a href="/" class="logo-container">
-            <Logo class="logo" />
+        <a href="/" class="logo-container" @click.prevent="triggerAnimation">
+            <!-- <Logo class="logo" /> -->
+             <LogoAnimated ref="logoRef" class="logo" />
         </a>
         <div class="burger-menu">
             <Burger />
@@ -10,10 +11,18 @@
 </template>
 
 <script lang="ts" setup>
+import { ref } from 'vue';
 import Burger from '../icons/Burger.vue';
 import Logo from '../icons/Logo.vue';
+import LogoAnimated from '../icons/LogoAnimated.vue';
 
+const logoRef = ref<InstanceType<typeof LogoAnimated> | null>(null);
 
+const triggerAnimation = () => {
+    if (logoRef.value) {
+        logoRef.value.animate();
+    }
+};
 </script>
 
 <style lang="scss" scoped>
