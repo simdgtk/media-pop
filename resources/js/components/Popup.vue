@@ -1,58 +1,64 @@
 <template>
     <Transition name="fade">
         <div v-if="isOpen" class="popup" @click="handleBackdropClick">
-            <div class="filters-container" @click.stop @touchstart="handleTouchStart" @touchmove="handleTouchMove"
-                @touchend="handleTouchEnd" :style="containerStyle">
-                <div class="drag-handle"></div>
-                <span class="title">filtrer</span>
-                <div class="filters">
-                    <div class="filter filter-date-range">
-                        <div class="filter-title-container">
-                            <span class="filter-title">
-                                période
-                            </span>
-                            <div role="presentation" aria-hidden="true" class="highlight"></div>
-                        </div>
-                        <div class="date-flex">
-                            <span>du</span>
-                            <div class="date">
-                                <input type="date" ref="dateInputRefFrom" v-model="selectedDateFrom"
-                                    class="hidden-input" />
-                                <div class="date-input" @click="openDatePickerFrom">
-                                    <span class="date-display">{{ formattedDateFrom }}</span>
-                                    <Calendar />
+            <div class="image-container">
+                <div class="filters-container" @click.stop @touchstart="handleTouchStart" @touchmove="handleTouchMove"
+                    @touchend="handleTouchEnd" :style="containerStyle">
+                    <Pop class="pop-bg" />
+                    <div class="drag-handle"></div>
+                    <span class="title">filtrer</span>
+                    <div class="filters">
+                        <div class="filter filter-date-range">
+                            <div class="filter-title-container">
+                                <span class="filter-title">
+                                    période
+                                </span>
+                                <div role="presentation" aria-hidden="true" class="highlight"></div>
+                            </div>
+                            <div class="date-flex">
+                                <span>du</span>
+                                <div class="date">
+                                    <input type="date" ref="dateInputRefFrom" v-model="selectedDateFrom"
+                                        class="hidden-input" />
+                                    <div class="date-input" @click="openDatePickerFrom">
+                                        <span class="date-display">{{ formattedDateFrom }}</span>
+                                        <Calendar />
+                                    </div>
+                                </div>
+                                <span>au</span>
+                                <div class="date">
+                                    <input type="date" ref="dateInputRefTo" v-model="selectedDateTo"
+                                        class="hidden-input" />
+                                    <div class="date-input" @click="openDatePickerTo">
+                                        <span class="date-display">{{ formattedDateTo }}</span>
+                                        <Calendar />
+                                    </div>
                                 </div>
                             </div>
-                            <span>au</span>
-                            <div class="date">
-                                <input type="date" ref="dateInputRefTo" v-model="selectedDateTo" class="hidden-input" />
-                                <div class="date-input" @click="openDatePickerTo">
-                                    <span class="date-display">{{ formattedDateTo }}</span>
-                                    <Calendar />
-                                </div>
+                        </div>
+                        <div class="filter filter-category">
+                            <div class="filter-title-container">
+                                <span class="filter-title">
+                                    catégories
+                                </span>
+                                <div role="presentation" aria-hidden="true" class="highlight"></div>
+                            </div>
+                            <div class="list-select">
+                                <div class="select-item selected">cinéma</div>
+                                <div class="select-item">culture</div>
+                                <div class="select-item">musique</div>
+                                <div class="select-item selected">sport</div>
+                                <div class="select-item">jeux vidéo</div>
+                                <div class="select-item">livres</div>
+                                <div class="select-item selected">festival</div>
                             </div>
                         </div>
                     </div>
-                    <div class="filter filter-category">
-                        <div class="filter-title-container">
-                            <span class="filter-title">
-                                catégories
-                            </span>
-                            <div role="presentation" aria-hidden="true" class="highlight"></div>
-                        </div>
-                        <div class="list-select">
-                            <div class="select-item selected">cinéma</div>
-                            <div class="select-item">culture</div>
-                            <div class="select-item">musique</div>
-                            <div class="select-item selected">sport</div>
-                            <div class="select-item">jeux vidéo</div>
-                            <div class="select-item">livres</div>
-                            <div class="select-item selected">festival</div>
-                        </div>
-                    </div>
+                    <button class="save-button">filtrer les 78 articles</button>
                 </div>
-                <button class="save-button">filtrer les 78 articles</button>
+                <!-- <Pop class="pop" /> -->
             </div>
+
         </div>
     </Transition>
 </template>
@@ -60,6 +66,7 @@
 <script lang="ts" setup>
 import { ref, computed, watch, type CSSProperties } from 'vue';
 import Calendar from './icons/Calendar.vue';
+import Pop from './icons/Pop.vue';
 
 const props = defineProps<{
     isOpen: boolean;
@@ -127,18 +134,18 @@ const selectedDateFrom = ref(new Date().toISOString().split('T')[0]);
 const selectedDateTo = ref(new Date().toISOString().split('T')[0]);
 
 const formattedDateFrom = computed(() => {
-    if (!selectedDateFrom.value) return '1 décembre 2025';
+    if (!selectedDateFrom.value) return '1 déc. 2025';
 
     const date = new Date(selectedDateFrom.value);
-    const options: Intl.DateTimeFormatOptions = { day: 'numeric', month: 'long', year: 'numeric' };
+    const options: Intl.DateTimeFormatOptions = { day: 'numeric', month: 'short', year: 'numeric' };
     return date.toLocaleDateString('fr-FR', options);
 });
 
 const formattedDateTo = computed(() => {
-    if (!selectedDateTo.value) return '1 décembre 2025';
+    if (!selectedDateTo.value) return '1 déc. 2025';
 
     const date = new Date(selectedDateTo.value);
-    const options: Intl.DateTimeFormatOptions = { day: 'numeric', month: 'long', year: 'numeric' };
+    const options: Intl.DateTimeFormatOptions = { day: 'numeric', month: 'short', year: 'numeric' };
     return date.toLocaleDateString('fr-FR', options);
 });
 
@@ -210,9 +217,24 @@ const openDatePickerTo = () => {
         display: flex;
         flex-direction: column;
         gap: toRem(48);
-
         touch-action: none;
+        overflow: hidden;
 
+        .pop-bg {
+            position: absolute;
+            width: 100%;
+            z-index: 0;
+            bottom: 0;
+            right: 0;
+            pointer-events: none;
+            transform: translateX(5%);
+            color: rgba($blue, 0.05);
+        }
+
+        > :not(.pop-bg) {
+            position: relative;
+            z-index: 1;
+        }
         .drag-handle {
             width: toRem(48);
             height: toRem(4);
@@ -223,7 +245,6 @@ const openDatePickerTo = () => {
             left: 50%;
             transform: translateX(-50%);
         }
-
         .title {
             text-transform: lowercase;
             font-weight: 700;
@@ -233,7 +254,6 @@ const openDatePickerTo = () => {
             display: inline-block;
             width: 100%;
         }
-
         .save-button {
             padding: toRem(16) toRem(20);
             background-color: $blue;
@@ -247,31 +267,25 @@ const openDatePickerTo = () => {
             text-align: center;
             will-change: transform;
             transition: transform 0.1s ease-in-out, background-color 0.1s ease-in-out;
-
             &:hover {
                 background-color: color.adjust($blue, $lightness: -5%);
                 transform: scale(0.99);
-
             }
-
             &:active {
                 background-color: color.adjust($blue, $lightness: -10%);
                 transform: scale(0.96);
             }
         }
-
         .filters {
             display: flex;
             flex-direction: column;
             gap: toRem(28);
-
             .filter {
                 .filter-title-container {
                     position: relative;
                     width: fit-content;
                     display: flex;
                     margin-bottom: toRem(16);
-
                     .filter-title {
                         font-size: toRem(20);
                         font-weight: 600;
@@ -281,7 +295,6 @@ const openDatePickerTo = () => {
                         z-index: 1;
                         line-height: 95%;
                     }
-
                     .highlight {
                         content: '';
                         position: absolute;
@@ -292,22 +305,18 @@ const openDatePickerTo = () => {
                         background-color: $lime;
                         border-radius: toRem(2);
                         z-index: 0;
-
                         transform: translate(toRem(-2), 0);
                     }
                 }
-
                 .date-flex {
                     display: flex;
                     align-items: center;
-                    gap: toRem(12);
+                    gap: toRem(8);
                     flex-wrap: wrap;
                     font-size: toRem(14);
-
                     .date {
                         position: relative;
                         width: fit-content;
-
                         .hidden-input {
                             position: absolute;
                             opacity: 0;
@@ -315,7 +324,6 @@ const openDatePickerTo = () => {
                             width: 0;
                             height: 0;
                         }
-
                         .date-input {
                             display: flex;
                             align-items: center;
@@ -331,15 +339,12 @@ const openDatePickerTo = () => {
                             cursor: pointer;
                             transition: background-color 0.2s ease-in-out;
                             width: fit-content;
-
                             &:hover {
                                 background-color: color.adjust($blue, $lightness: -5%);
                             }
-
                             .date-display {
                                 font-family: 'Instrument Sans', sans-serif;
                             }
-
                             svg {
                                 width: toRem(24);
                                 height: toRem(24);
@@ -348,12 +353,10 @@ const openDatePickerTo = () => {
                         }
                     }
                 }
-
                 .list-select {
                     display: flex;
                     gap: toRem(8);
                     flex-wrap: wrap;
-
                     .select-item {
                         line-height: 100%;
                         padding: toRem(8) toRem(12);
@@ -363,13 +366,11 @@ const openDatePickerTo = () => {
                         border: toRem(1) solid $blue;
                         font-size: toRem(14);
                         transition: background-color 0.1s ease-in-out, color 0.1s ease-in-out, transform 0.1s ease-in-out;
-
                         &.selected {
                             background-color: $blue;
                             color: $white;
                             border: toRem(1) solid $blue;
                         }
-
                         &:hover {
                             transform: scale(0.99);
                         }
@@ -378,7 +379,6 @@ const openDatePickerTo = () => {
                         }
                     }
                 }
-
             }
         }
     }

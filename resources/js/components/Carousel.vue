@@ -24,7 +24,7 @@
         </div>
     </div>
     </div>
-    
+
     <Mo class="icon-background" />
   </div>
 </template>
@@ -165,7 +165,8 @@ const filteredArticles = computed(() => articles.value);
         .external-article-name {
             font-weight: 700;
             font-size: toRem(14);
-            line-height: 95%;
+            line-height: 110%;
+            margin-bottom: toRem(4);
 
             :deep(.highlight) {
                 background-color: $lime;
