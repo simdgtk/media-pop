@@ -28,7 +28,6 @@ class Article extends Controller
             'actualite',
             'culture',
             'sport',
-            'politique',
             'science',
             'sante',
             'economie',
