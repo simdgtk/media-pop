@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
 use Illuminate\Database\Seeder;
+use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
 class AdminUserSeeder extends Seeder
@@ -23,7 +23,7 @@ class AdminUserSeeder extends Seeder
             ]
         );
 
-        if (! $admin->is_admin) {
+        if (!$admin->is_admin) {
             $admin->is_admin = true;
             $admin->save();
         }
