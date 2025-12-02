@@ -3,7 +3,7 @@
         <section class="categories">
             <h2>Catégories</h2>
             <div class="filters">
-                <Button class="button" text="filtres et tri" @click="isOpen = true">
+                <Button class="button" text="filtres" @click="isOpen = true">
                     <template #icon>
                         <Filter />
                     </template>
