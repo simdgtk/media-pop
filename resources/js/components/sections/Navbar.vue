@@ -1,7 +1,7 @@
 <template>
     <nav class="navbar">
         <a href="/" class="logo-container" @click.prevent="triggerAnimation">
-             <LogoAnimated ref="logoRef" class="logo" />
+            <LogoAnimated ref="logoRef" class="logo" :color1="logoColor1" :color2="logoColor2" />
         </a>
         <a href="/" class="onboarding-link">
             <Question />
@@ -10,12 +10,14 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import Question from '../icons/Question.vue';
-import Logo from '../icons/Logo.vue';
 import LogoAnimated from '../icons/LogoAnimated.vue';
-
 const logoRef = ref<InstanceType<typeof LogoAnimated> | null>(null);
+
+const currentPath = typeof window !== 'undefined' ? window.location.pathname : '/';
+const logoColor1 = computed(() => currentPath === '/search' ? '#4F49FD' : '#FD494A');
+const logoColor2 = computed(() => '#B8FF93');
 
 const triggerAnimation = () => {
     if (logoRef.value) {
@@ -36,6 +38,7 @@ const triggerAnimation = () => {
 
     .logo-container {
         width: toRem(68);
+
         .logo {
             color: $lime;
         }
