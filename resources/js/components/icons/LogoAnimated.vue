@@ -1,7 +1,6 @@
 <template>
     <svg viewBox="0 0 342 313" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M342 0H0V313H342V0Z" fill="#FD494A" class="fond" />
-        <!-- <path d="M88.5446 225.009H54.6387V253.899H88.5446V225.009Z" fill="#829" /> -->
         <path d="M129.46 247.86H209.96V276.07H129.46V247.86Z" fill="#B8FF93" class="traverse" />
         <path d="M212 242H318.58V282.21H212V242Z" fill="#FD494A" class="cache-traverse"
             :class="{ 'animate': isAnimating }" />
@@ -48,6 +47,7 @@ defineExpose({
 
 <style lang="scss" scoped>
 @use "../../../css/easings" as *;
+
 .cache-traverse.animate {
     animation: cacheTraverseAnim 4.2s $ease-in-out-quart forwards;
 }
