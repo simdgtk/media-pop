@@ -235,6 +235,7 @@ const openDatePickerTo = () => {
             position: relative;
             z-index: 1;
         }
+
         .drag-handle {
             width: toRem(48);
             height: toRem(4);
@@ -245,6 +246,7 @@ const openDatePickerTo = () => {
             left: 50%;
             transform: translateX(-50%);
         }
+
         .title {
             text-transform: lowercase;
             font-weight: 700;
@@ -254,6 +256,7 @@ const openDatePickerTo = () => {
             display: inline-block;
             width: 100%;
         }
+
         .save-button {
             padding: toRem(16) toRem(20);
             background-color: $blue;
@@ -267,25 +270,30 @@ const openDatePickerTo = () => {
             text-align: center;
             will-change: transform;
             transition: transform 0.1s ease-in-out, background-color 0.1s ease-in-out;
+
             &:hover {
                 background-color: color.adjust($blue, $lightness: -5%);
                 transform: scale(0.99);
             }
+
             &:active {
                 background-color: color.adjust($blue, $lightness: -10%);
                 transform: scale(0.96);
             }
         }
+
         .filters {
             display: flex;
             flex-direction: column;
             gap: toRem(28);
+
             .filter {
                 .filter-title-container {
                     position: relative;
                     width: fit-content;
                     display: flex;
                     margin-bottom: toRem(16);
+
                     .filter-title {
                         font-size: toRem(20);
                         font-weight: 600;
@@ -295,7 +303,9 @@ const openDatePickerTo = () => {
                         z-index: 1;
                         line-height: 95%;
                     }
+
                     .highlight {
+                        display: block;
                         content: '';
                         position: absolute;
                         bottom: 0;
@@ -303,20 +313,22 @@ const openDatePickerTo = () => {
                         width: calc(100% + toRem(4));
                         height: 100%;
                         background-color: $lime;
-                        border-radius: toRem(2);
-                        z-index: 0;
+                        z-index: -1;
                         transform: translate(toRem(-2), 0);
                     }
                 }
+
                 .date-flex {
                     display: flex;
                     align-items: center;
                     gap: toRem(8);
                     flex-wrap: wrap;
                     font-size: toRem(14);
+
                     .date {
                         position: relative;
                         width: fit-content;
+
                         .hidden-input {
                             position: absolute;
                             opacity: 0;
@@ -324,6 +336,7 @@ const openDatePickerTo = () => {
                             width: 0;
                             height: 0;
                         }
+
                         .date-input {
                             display: flex;
                             align-items: center;
@@ -339,12 +352,15 @@ const openDatePickerTo = () => {
                             cursor: pointer;
                             transition: background-color 0.2s ease-in-out;
                             width: fit-content;
+
                             &:hover {
                                 background-color: color.adjust($blue, $lightness: -5%);
                             }
+
                             .date-display {
                                 font-family: 'Instrument Sans', sans-serif;
                             }
+
                             svg {
                                 width: toRem(24);
                                 height: toRem(24);
@@ -353,10 +369,12 @@ const openDatePickerTo = () => {
                         }
                     }
                 }
+
                 .list-select {
                     display: flex;
                     gap: toRem(8);
                     flex-wrap: wrap;
+
                     .select-item {
                         line-height: 100%;
                         padding: toRem(8) toRem(12);
@@ -366,14 +384,17 @@ const openDatePickerTo = () => {
                         border: toRem(1) solid $blue;
                         font-size: toRem(14);
                         transition: background-color 0.1s ease-in-out, color 0.1s ease-in-out, transform 0.1s ease-in-out;
+
                         &.selected {
                             background-color: $blue;
                             color: $white;
                             border: toRem(1) solid $blue;
                         }
+
                         &:hover {
                             transform: scale(0.99);
                         }
+
                         &:active {
                             transform: scale(0.96);
                         }
