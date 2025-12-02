@@ -3,12 +3,15 @@
         <a href="/" class="logo-container" @click.prevent="triggerAnimation">
              <LogoAnimated ref="logoRef" class="logo" />
         </a>
+        <a href="/" class="onboarding-link">
+            <Question />
+        </a>
     </nav>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-import Burger from '../icons/Burger.vue';
+import Question from '../icons/Question.vue';
 import Logo from '../icons/Logo.vue';
 import LogoAnimated from '../icons/LogoAnimated.vue';
 
@@ -38,7 +41,7 @@ const triggerAnimation = () => {
         }
     }
 
-    .burger-menu {
+    .onboarding-link {
         svg {
             width: toRem(24);
             color: $white;
