@@ -2,6 +2,7 @@
     <section class="news">
         <h2>Actualités</h2>
         <Carousel :bgIcon="true" />
+        <Carousel :bgIcon="true" :date="new Date().toISOString().split('T')[0]" />
     </section>
 </template>
 

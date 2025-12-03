@@ -49,6 +49,7 @@ interface ArticleData {
 const props = defineProps<{
     category?: string | null
     bgIcon?: boolean
+    date?: string | null
 }>()
 
 const bgIcon = props.bgIcon ?? false;
@@ -59,8 +60,18 @@ const articles = ref<ArticleData[]>([])
 const fetchLatest = async () => {
     try {
         let url = '/articles/latest';
+        const queryParams: string[] = [];
+
         if (props.category) {
-            url += `?category=${encodeURIComponent(props.category)}`;
+            queryParams.push(`category=${encodeURIComponent(props.category)}`);
+        }
+
+        if (props.date) {
+            queryParams.push(`date=${encodeURIComponent(props.date)}`);
+        }
+
+        if (queryParams.length > 0) {
+            url += `?${queryParams.join('&')}`;
         }
 
         const res = await fetch(url);
@@ -75,6 +86,7 @@ const fetchLatest = async () => {
         console.error('Failed to fetch latest articles', err);
     }
 }
+
 
 
 onMounted(fetchLatest)

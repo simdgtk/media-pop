@@ -40,6 +40,19 @@ Route::get('/article/create', [Article::class, 'create']);
 Route::post('/article', [Article::class, 'store']);
 Route::get('/articles', [Article::class, 'index']);
 Route::get('/articles/latest', [Article::class, 'latest']);
+
+Route::get('/articles/latest', function (Illuminate\Http\Request $request) {
+    $query = \App\Models\Article::query();
+    if ($request->has('category')) {
+        $query->whereJsonContains('category', $request->category);
+    }
+    if ($request->has('date')) {
+        $query->whereDate('published_at', $request->date);
+    }
+    $articles = $query->latest()->get();
+    return response()->json($articles);
+});
+
 Route::delete('/article/{id}', [Article::class, 'destroy']);
 
 require __DIR__.'/auth.php';
