@@ -26,7 +26,7 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])
+Route::get('/article/create', [Article::class, 'create'])
     ->middleware(['auth', 'verified', \App\Http\Middleware\EnsureUserIsAdmin::class])
     ->name('admin.dashboard');
 
@@ -36,7 +36,6 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::get('/article/create', [Article::class, 'create']);
 Route::post('/article', [Article::class, 'store']);
 Route::get('/articles', [Article::class, 'index']);
 Route::get('/articles/latest', [Article::class, 'latest']);
