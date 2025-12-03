@@ -35,6 +35,12 @@ defineProps<{
     transform: translateZ(0);
 
     :deep(svg) {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    :deep(svg) {
         width: toRem(16);
         height: toRem(16);
     }

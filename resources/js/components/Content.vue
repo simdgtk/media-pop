@@ -4,21 +4,28 @@
         <footer class="content-footer">
             <div class="footer-container">
                 <div class="author-infos">
-                <figure class="image-container">
-                    <img src="https://images.unsplash.com/photo-1761839258753-85d8eecbbc29?q=80&w=3270&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                        alt="Donald Trompe" />
-                </figure>
+                    <figure class="image-container">
+                        <img src="https://images.unsplash.com/photo-1761839258753-85d8eecbbc29?q=80&w=3270&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                            alt="Donald Trompe" />
+                    </figure>
 
-                <address class="author">
-                    <strong>Donald Trompe</strong>
-                    <i>"J'écris des articles cool"</i>
-                </address>
-            </div>
-                <Button class="share-button" text="partager" reverse>
-                    <template #icon>
-                        <Share />
-                    </template>
-                </Button>
+                    <address class="author">
+                        <strong>Donald Trompe</strong>
+                        <i>"J'écris des articles cool"</i>
+                    </address>
+                </div>
+                <div class="buttons">
+                    <Button class="like-button button" text="like" reverse>
+                        <template #icon>
+                            <Like />
+                        </template>
+                    </Button>
+                    <Button class="share-button button" text="partager" reverse>
+                        <template #icon>
+                            <Share />
+                        </template>
+                    </Button>
+                </div>
             </div>
         </footer>
     </section>
@@ -27,6 +34,7 @@
 <script lang="ts" setup>
 import TextContent from './TextContent.vue';
 import Button from '../Button.vue';
+import Like from './icons/Like.vue';
 import Share from './icons/Share.vue';
 
 
@@ -47,6 +55,17 @@ import Share from './icons/Share.vue';
                 flex-direction: row;
                 align-items: flex-end;
                 gap: toRem(20);
+            }
+
+            .buttons {
+                display: flex;
+                flex-direction: row;
+                gap: toRem(8);
+
+                .button {
+                    display: flex;
+                    align-items: center;
+                }
             }
 
             .author {
@@ -70,10 +89,6 @@ import Share from './icons/Share.vue';
                     user-select: none;
                 }
             }
-        }
-
-        .share-button {
-            align-self: flex-start;
         }
     }
 }
