@@ -14,17 +14,49 @@
                 </Button>
             </div>
         </div>
-        <Popup :isOpen="isOpen" @close="isOpen = false" />
-        <div class="title-extended-container">
-            <h3 class="title-extended">politique</h3>
-            <div aria-hidden="true" role="presentation" class="border"></div>
-        </div>
-        <Carousel :category="searchQuery" :bgIcon="false" />
-        <div class="title-extended-container">
-            <h3 class="title-extended">cinéma</h3>
-            <div aria-hidden="true" role="presentation" class="border"></div>
-        </div>
-        <Carousel :category="searchQuery" :bgIcon="false" />
+        <Popup :isOpen="isOpen" @close="isOpen = false" @applyFilters="updateFilters"/>
+        <template v-if="!activeCategories || activeCategories.includes('actualite')">
+            <div class="title-extended-container">
+                <h3 class="title-extended">actualités</h3>
+                <div class="border"></div>
+            </div>
+            <Carousel category="actualite" :bgIcon="false" />
+        </template>
+        <template v-if="!activeCategories || activeCategories.includes('cinema')">
+            <div class="title-extended-container">
+                <h3 class="title-extended">cinéma</h3>
+                <div aria-hidden="true" role="presentation" class="border"></div>
+            </div>
+            <Carousel category="cinema" :bgIcon="false" />
+        </template>
+        <template v-if="!activeCategories || activeCategories.includes('culture')">
+            <div class="title-extended-container">
+                <h3 class="title-extended">culture</h3>
+                <div aria-hidden="true" role="presentation" class="border"></div>
+            </div>
+            <Carousel category="culture" :bgIcon="false" />
+        </template>
+        <template v-if="!activeCategories || activeCategories.includes('internet')">
+            <div class="title-extended-container">
+                <h3 class="title-extended">internet</h3>
+                <div aria-hidden="true" role="presentation" class="border"></div>
+            </div>
+            <Carousel category="internet" :bgIcon="false" />
+        </template>
+        <template v-if="!activeCategories || activeCategories.includes('musique')">
+            <div class="title-extended-container">
+                <h3 class="title-extended">musique</h3>
+                <div aria-hidden="true" role="presentation" class="border"></div>
+            </div>
+            <Carousel category="musique" :bgIcon="false" />
+        </template>
+        <template v-if="!activeCategories || activeCategories.includes('sport')">
+            <div class="title-extended-container">
+                <h3 class="title-extended">sport</h3>
+                <div aria-hidden="true" role="presentation" class="border"></div>
+            </div>
+            <Carousel category="sport" :bgIcon="false" />
+        </template>
         <MopopIcon class="bg-icon" />
         <MopopIcon class="bg-icon second" />
     </section>
@@ -40,6 +72,13 @@ import Carousel from '../Carousel.vue';
 import MopopIcon from '../icons/MopopIcon.vue';
 
 const isOpen = ref(false);
+
+const activeCategories = ref<string[] | null>(null);
+
+const updateFilters = (cats: string[]) => {
+    activeCategories.value = cats;
+};
+
 </script>
 
 <style lang="scss" scoped>

@@ -44,19 +44,20 @@
                                 <div role="presentation" aria-hidden="true" class="highlight"></div>
                             </div>
                             <div class="list-select">
-                                <div class="select-item selected">cinéma</div>
-                                <div class="select-item">culture</div>
-                                <div class="select-item">musique</div>
-                                <div class="select-item selected">sport</div>
-                                <div class="select-item">jeux vidéo</div>
-                                <div class="select-item">livres</div>
-                                <div class="select-item selected">festival</div>
+                                <div
+                                    class="select-item"
+                                    v-for="cat in categories"
+                                    :key="cat"
+                                    :class="{ selected: selectedCategories.includes(cat) }"
+                                    @click="toggleCategory(cat)"
+                                >
+                                    {{ cat }}
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <button class="save-button">filtrer les 78 articles</button>
+                    <button class="save-button" @click="applyFilters">filtrer les articles</button>
                 </div>
-                <!-- <Pop class="pop" /> -->
             </div>
 
         </div>
@@ -160,6 +161,33 @@ const openDatePickerFrom = () => {
 const openDatePickerTo = () => {
     dateInputRefTo.value?.showPicker();
 };
+
+
+//Gestion des filtres
+const categories = ref([
+    "actualite",
+    "cinema",
+    "culture",
+    "internet",
+    "musique",
+    "sport"
+]);
+
+const selectedCategories = ref<string[]>([]);
+
+const toggleCategory = (cat: string) => {
+    if (selectedCategories.value.includes(cat)) {
+        selectedCategories.value = selectedCategories.value.filter(c => c !== cat);
+    } else {
+        selectedCategories.value.push(cat);
+    }
+};
+
+const applyFilters = () => {
+    emit("applyFilters", selectedCategories.value);
+    emit("close");
+};
+
 </script>
 
 <style scoped lang="scss">
