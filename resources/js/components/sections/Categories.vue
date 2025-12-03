@@ -2,21 +2,14 @@
     <div class="categories-container">
         <section class="categories">
             <h2>Catégories</h2>
-            <div class="title-extended-container">
-                <h3 class="title-extended">politique</h3>
-                <div aria-hidden="true" role="presentation" class="border"></div>
-            </div>
-            <Carousel category="politique" />
+            <CarouselGrid />
         </section>
     </div>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-import Carousel from '../Carousel.vue';
-import Button from '../../Button.vue';
-import Filter from '../icons/Filter.vue';
-import Popup from '../Popup.vue';
+import CarouselGrid from '../CarouselGrid.vue';
 
 const isOpen = ref(false);
 

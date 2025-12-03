@@ -27,12 +27,10 @@ class Article extends Controller
         $categories = [
             'actualite',
             'culture',
-            'sport',
-            'science',
-            'sante',
-            'economie',
-            'technologie',
-            'divertissement',
+            'internet',
+            'musique',
+            'cinema',
+            'sports',
         ];
 
         return view('article-create', compact(
@@ -66,7 +64,7 @@ class Article extends Controller
         if ($request->hasFile('image') && $request->file('image')->isValid()) {
             $imagePath = $request->file('image')->store('images', 'public');
         }
-        
+
         $selectedWordsString = null;
         if ($request->filled('selected_words')) {
             $selectedWordsString = trim((string) $request->input('selected_words'));

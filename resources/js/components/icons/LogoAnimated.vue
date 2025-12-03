@@ -45,7 +45,7 @@ const animate = () => {
     isAnimating.value = true;
     setTimeout(() => {
         isAnimating.value = false;
-    }, 2000);
+    }, 1000);
 };
 
 defineExpose({
@@ -57,7 +57,23 @@ defineExpose({
 @use "../../../css/easings" as *;
 
 .cache-traverse.animate {
-    animation: cacheTraverseAnim 4.2s $ease-in-out-quart forwards;
+    animation: cacheTraverseAnim 2.5s $ease-in-out-quart forwards;
+}
+
+.letter-haut-P2.animate {
+    animation: slideHautP2 1s $ease-in-out-quart forwards;
+}
+
+.letter-M.animate {
+    animation: slideM 1s $ease-in-out-quart forwards;
+}
+
+.letter-O.animate {
+    animation: slideO 1s $ease-in-out-quart forwards;
+}
+
+.letter-bas-P1.animate {
+    animation: slideBasP 1s $ease-in-out-quart forwards;
 }
 
 @keyframes cacheTraverseAnim {
@@ -65,44 +81,35 @@ defineExpose({
         transform: translateX(0);
         opacity: 1;
     }
+
     40% {
         transform: translateX(-70%);
         opacity: 1;
     }
+
     80% {
         transform: translateX(-120%);
         opacity: 0;
     }
+
     100% {
         transform: translateX(0);
         opacity: 1;
     }
 }
-.letter-haut-P2.animate {
-    animation: slideHautP2 2s $ease-in-out-quart forwards;
-}
+
 @keyframes slideHautP2 {
     0% {
         transform: translateY(0);
     }
+
     50% {
         transform: translateY(14%);
     }
+
     100% {
         transform: translateY(0);
     }
-}
-
-.letter-M.animate {
-    animation: slideM 2s $ease-in-out-quart forwards;
-}
-
-.letter-O.animate {
-    animation: slideO 2s $ease-in-out-quart forwards;
-}
-
-.letter-bas-P1.animate {
-    animation: slideBasP 2s $ease-in-out-quart forwards;
 }
 
 @keyframes slideM {
