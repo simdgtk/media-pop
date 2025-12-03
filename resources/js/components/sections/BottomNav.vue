@@ -1,46 +1,61 @@
 <template>
     <div class="bottom-nav">
-        <div class="icon-container" :class="{ fill: selected === 'home' }" @click="selected = 'home'">
-            <Home class="icon" :fill="selected === 'home'" />
+        <a href="/" class="icon-container" :class="{ fill: current === 'home' }" @click="choose('home')">
+            <Home class="icon" :fill="current === 'home'" />
             <div class="icon-title">
                 <span class="title-text">Accueil</span>
                 <div role="presentation" aria-hidden="true" class="highlight"></div>
             </div>
-        </div>
-        <div class="icon-container" :class="{ fill: selected === 'search' }" @click="selected = 'search'">
-            <Search class="icon" :fill="selected === 'search'" />
+        </a>
+        <a href="/search" class="icon-container" :class="{ fill: current === 'search' }" @click="choose('search')">
+            <Search class="icon" :fill="current === 'search'" />
             <div class="icon-title">
                 <span class="title-text">recherche</span>
                 <div role="presentation" aria-hidden="true" class="highlight"></div>
             </div>
-        </div>
-        <div class="icon-container" :class="{ fill: selected === 'favorites' }" @click="selected = 'favorites'">
-            <Heart class="icon" :fill="selected === 'favorites'" />
+        </a>
+        <a href="#" class="icon-container" :class="{ fill: current === 'favorites' }" @click="choose('favorites')">
+            <Heart class="icon" :fill="current === 'favorites'" />
             <div class="icon-title">
                 <span class="title-text">favoris</span>
                 <div role="presentation" aria-hidden="true" class="highlight"></div>
             </div>
-        </div>
-        <div class="icon-container" :class="{ fill: selected === 'account' }" @click="selected = 'account'">
-            <User class="icon" :fill="selected === 'account'" />
+        </a>
+        <a href="/profile" class="icon-container" :class="{ fill: current === 'account' }" @click="choose('account')">
+            <User class="icon" :fill="current === 'account'" />
             <div class="icon-title">
                 <span class="title-text">compte</span>
                 <div role="presentation" aria-hidden="true" class="highlight"></div>
             </div>
-        </div>
+        </a>
     </div>
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import Heart from '../icons/Heart.vue';
 import Home from '../icons/Home.vue';
 import User from '../icons/User.vue';
 import Search from '../icons/Search.vue';
 
-const selected = ref<'home' | 'search' | 'favorites' | 'account'>('home');
+const localSelected = ref<string|null>(null);
 
+const urlSelected = computed(() => {
+    const path = window.location.pathname;
+    if (path.startsWith('/search')) return 'search';
+    if (path.startsWith('/favorites')) return 'favorites';
+    if (path.startsWith('/account') || path.startsWith('/profile')) return 'account';
+    return 'home';
+});
+
+const current = computed(() => localSelected.value ?? urlSelected.value);
+
+function choose(tab: string) {
+    localSelected.value = tab;
+}
 </script>
+
+
 
 <style lang="scss" scoped>
 @use 'sass:color';
