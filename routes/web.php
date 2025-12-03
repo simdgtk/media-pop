@@ -26,7 +26,7 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/article/create', [Article::class, 'create'])
+Route::get('/article/create', [Article::class, 'createVue'])
     ->middleware(['auth', 'verified', \App\Http\Middleware\EnsureUserIsAdmin::class])
     ->name('admin.dashboard');
 
