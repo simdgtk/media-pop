@@ -1,7 +1,7 @@
 <template>
     <div class="embla carousel" ref="emblaRef">
         <div class="embla__container">
-            <div v-for="article in filteredArticles" :key="article.id" class="embla__slide article">
+            <a :href="`/article-test/${article.id}`" v-for="article in filteredArticles" :key="article.id" class="embla__slide article">
                 <div class="image-container">
                     <img v-if="article.image_url" :src="article.image_url" :alt="article.title" />
                     <div v-else class="placeholder-box">Pas d'image</div>
@@ -11,7 +11,7 @@
                     </p>
                     <h3 class="article-name">{{ article.title }}</h3>
                 </div>
-            </div>
+            </a>
             <div class="embla__slide article">
                 <div class="image-container">
                     <img src="https://images.unsplash.com/photo-1761839258753-85d8eecbbc29?q=80&w=3270&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"

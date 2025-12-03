@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Article;
+use App\Models\Article as ArticleModel;
 
 Route::get('/', function () {
     $article = \App\Models\Article::first();
@@ -11,11 +12,11 @@ Route::get('/', function () {
     return view('welcome', ['newsTitle' => $newsTitle]);
 });
 
-Route::get('/article-test', function () {
-    $article = \App\Models\Article::first();
-    $newsTitle = $article ? $article->title : 'Actualités du jour';
-    return view('article-test', ['newsTitle' => $newsTitle]);
+Route::get('/article-test/{id}', function ($id) {
+    $article = ArticleModel::findOrFail($id);
+    return view('article-test', ['article' => $article]);
 });
+
 
 Route::get('/search', function () {
     return view('search');

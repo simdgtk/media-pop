@@ -27,7 +27,7 @@
 <body>
     <div id="app">
         <navbar></navbar>
-        <article-component></article-component>
+        <article-component :article='@json($article)'></article-component>
     </div>
 </body>
 

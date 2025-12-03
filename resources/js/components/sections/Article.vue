@@ -1,37 +1,46 @@
 <template>
-    <section class="article">
-        <div class="hero-article">
-            <div class="title-container">
-                <div class="image-container">
-                    <img src="https://images.unsplash.com/photo-1761839258753-85d8eecbbc29?q=80&w=3270&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                        alt="Article Image" />
-                </div>
-                <h1 class="title">One piece</h1>
+<section class="article">
+    <div class="hero-article">
+        <div class="title-container">
+            <div class="image-container">
+                <img :src="props.article.image ? `/storage/${props.article.image}` : 'https://via.placeholder.com/310x169'" 
+                     :alt="props.article.title" />
             </div>
-            <p class="external-title">Sous-titre. de l’article.............Norem ipsum dolor sit amet, consectetur
-                adipiscing elit.
-                Etiam eu turpis
-                molestie, dictum est a.</p>
-            <p class="subtitle">Sous-titre. de l’article.............Norem ipsum dolor sit amet, consectetur
-                adipiscing elit.
-                Etiam eu turpis
-                molestie, dictum est a.</p>
+            <h1 class="title">{{ props.article.title }}</h1>
         </div>
-        <div class="content-container-wrapper">
-            <div class="content-container">
-                <Content />
-            </div>
-            <MopopIcon class="bg-icon" />
+        <p class="external-title" v-if="props.article.subtitle">{{ props.article.subtitle }}</p>
+    </div>
+
+    <div class="content-container-wrapper">
+        <div class="content-container">
+            <Content :article-content="props.article.content"/>
         </div>
-    </section>
+        <MopopIcon class="bg-icon"/>
+    </div>
+</section>
 </template>
 
 <script lang="ts" setup>
+import { defineProps } from 'vue';
 import Content from '../Content.vue';
-import Pop from '../icons/Pop.vue';
 import MopopIcon from '../icons/MopopIcon.vue';
 
+interface Article {
+    id: number;
+    title: string;
+    subtitle?: string;
+    content?: string;
+    image?: string;
+    author?: string;
+    source_title?: string;
+    source_url?: string;
+    category?: string[];
+    published_at?: string;
+}
 
+const props = defineProps<{
+    article: Article
+}>();
 </script>
 
 <style lang="scss" scoped>

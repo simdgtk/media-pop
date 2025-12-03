@@ -1,35 +1,36 @@
 <template>
-    <section class="content">
-        <TextContent />
-        <footer class="content-footer">
-            <div class="footer-container">
-                <div class="author-infos">
+<section class="content">
+    <TextContent :content="props.articleContent" />
+    <footer class="content-footer">
+        <div class="footer-container">
+            <div class="author-infos">
                 <figure class="image-container">
-                    <img src="https://images.unsplash.com/photo-1761839258753-85d8eecbbc29?q=80&w=3270&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                        alt="Donald Trompe" />
+                    <img src="https://images.unsplash.com/photo-1761839258753-85d8eecbbc29?q=80&w=3270&auto=format&fit=crop" alt="Auteur"/>
                 </figure>
-
                 <address class="author">
-                    <strong>Donald Trompe</strong>
+                    <strong>{{ props.articleContent?.author ?? 'Auteur inconnu' }}</strong>
                     <i>"J'écris des articles cool"</i>
                 </address>
             </div>
-                <Button class="share-button" text="partager" reverse>
-                    <template #icon>
-                        <Share />
-                    </template>
-                </Button>
-            </div>
-        </footer>
-    </section>
+            <Button class="share-button" text="partager" reverse>
+                <template #icon>
+                    <Share />
+                </template>
+            </Button>
+        </div>
+    </footer>
+</section>
 </template>
 
 <script lang="ts" setup>
+import { defineProps } from 'vue';
 import TextContent from './TextContent.vue';
 import Button from '../Button.vue';
 import Share from './icons/Share.vue';
 
-
+const props = defineProps<{
+    articleContent?: string
+}>();
 </script>
 
 <style lang="scss" scoped>

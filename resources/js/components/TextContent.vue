@@ -1,19 +1,13 @@
 <template>
-    <div class="text-content">
-        <p>
-            Norem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis
-            tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus elit
-            sed risus. Maecenas eget condimentum velit, sit amet feugiat lectus. Class aptent taciti sociosqu ad litora
-            torquent per conubia nostra, per inceptos himenaeos. Praesent auctor purus luctus enim egestas, ac
-            scelerisque ante pulvinar. Donec ut rhoncus ex. Suspendisse ac rhoncus nisl, eu tempor urna. Curabitur vel
-            bibendum lorem. Morbi convallis convallis diam sit amet lacinia. Aliquam in elementum tellus.
-        </p>
-        <h3>Le titre de la seconde partie.......................</h3>
-    </div>
+    <div class="text-content" v-html="props.content"></div>
 </template>
 
 <script lang="ts" setup>
+import { defineProps } from 'vue';
 
+const props = defineProps<{
+    content?: string
+}>();
 </script>
 
 <style lang="scss" scoped>
