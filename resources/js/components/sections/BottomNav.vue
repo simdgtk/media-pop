@@ -59,6 +59,8 @@ const selected = ref<'home' | 'search' | 'favorites' | 'account'>('home');
     gap: toRem(8);
     flex-wrap: wrap;
     padding: toRem(12) toRem(28);
+    z-index: 10;
+    box-shadow: 0 toRem(-6) toRem(10) 0 rgba(44, 0, 166, 0.2);
 
     .icon {
         display: flex;

@@ -2,14 +2,6 @@
     <div class="categories-container">
         <section class="categories">
             <h2>Catégories</h2>
-            <div class="filters">
-                <Button class="button" text="filtres" @click="isOpen = true">
-                    <template #icon>
-                        <Filter />
-                    </template>
-                </Button>
-            </div>
-            <Popup :isOpen="isOpen" @close="isOpen = false" />
             <div class="title-extended-container">
                 <h3 class="title-extended">politique</h3>
                 <div aria-hidden="true" role="presentation" class="border"></div>

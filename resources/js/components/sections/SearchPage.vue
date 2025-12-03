@@ -1,15 +1,45 @@
 <template>
     <section class="search-page">
         <h2>recherche</h2>
-        <div class="search-container">
-            <input type="text" v-model="searchQuery" placeholder="Recherche" class="search-input" />
-            <Search class="search-icon" />
+        <div class="search-and-filters">
+            <div class="search-container">
+                <input type="text" v-model="searchQuery" placeholder="Recherche" class="search-input" />
+                <Search class="search-icon" />
+            </div>
+            <div class="filters">
+                <Button class="button" text="filtres" @click="isOpen = true">
+                    <template #icon>
+                        <Filter />
+                    </template>
+                </Button>
+            </div>
         </div>
+        <Popup :isOpen="isOpen" @close="isOpen = false" />
+        <div class="title-extended-container">
+            <h3 class="title-extended">politique</h3>
+            <div aria-hidden="true" role="presentation" class="border"></div>
+        </div>
+        <Carousel :category="searchQuery" :bgIcon="false" />
+        <div class="title-extended-container">
+            <h3 class="title-extended">cinéma</h3>
+            <div aria-hidden="true" role="presentation" class="border"></div>
+        </div>
+        <Carousel :category="searchQuery" :bgIcon="false" />
+        <MopopIcon class="bg-icon" />
+        <MopopIcon class="bg-icon second" />
     </section>
 </template>
 
 <script lang="ts" setup>
+import { ref } from 'vue';
 import Search from '../icons/Search.vue';
+import Button from '../../Button.vue';
+import Filter from '../icons/Filter.vue';
+import Popup from '../Popup.vue';
+import Carousel from '../Carousel.vue';
+import MopopIcon from '../icons/MopopIcon.vue';
+
+const isOpen = ref(false);
 </script>
 
 <style lang="scss" scoped>
@@ -21,6 +51,8 @@ import Search from '../icons/Search.vue';
     display: flex;
     flex-direction: column;
     gap: toRem(24);
+    position: relative;
+    overflow: hidden;
 
     h2 {
         color: $white;
@@ -28,12 +60,27 @@ import Search from '../icons/Search.vue';
         padding-right: toRem(20);
     }
 
+    .search-and-filters {
+        display: flex;
+        flex-direction: column;
+        gap: toRem(16);
+
+        .filters {
+            margin-left: toRem(20);
+
+            .button {
+                color: $blue;
+            }
+        }
+    }
+
+
     .search-container {
         position: relative;
         display: flex;
         flex-direction: row-reverse;
         align-items: center;
-        max-width: toRem(350);
+        max-width: toRem(500);
         margin-left: toRem(20);
         margin-right: toRem(20);
 
@@ -75,6 +122,48 @@ import Search from '../icons/Search.vue';
             .search-icon {
                 color: $black;
             }
+        }
+    }
+
+    .title-extended-container {
+        width: fit-content;
+        position: relative;
+
+        .title-extended {
+            font-size: toRem(16);
+            font-weight: 900;
+            font-family: 'Font1', sans-serif;
+            text-transform: uppercase;
+            margin-left: toRem(20);
+            color: $white;
+        }
+
+        .border {
+            position: absolute;
+            transform-origin: right;
+            transform: scale(-1);
+            bottom: toRem(6);
+            right: toRem(4);
+            width: 100vw;
+            height: toRem(1);
+            background-color: $white;
+        }
+    }
+
+    .bg-icon {
+        position: absolute;
+        top: toRem(60);
+        right: toRem(-50);
+        width: toRem(230);
+        color: $dark-blue;
+        pointer-events: none;
+        user-select: none;
+        z-index: -1;
+        display: block;
+
+        &.second {
+            top: toRem(262);
+            left: toRem(-80);
         }
     }
 }

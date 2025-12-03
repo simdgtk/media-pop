@@ -1,7 +1,7 @@
 <template>
     <section class="news">
         <h2>Actualités</h2>
-        <Carousel />
+        <Carousel :bgIcon="true" />
     </section>
 </template>
 
