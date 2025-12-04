@@ -51,9 +51,11 @@
                     <div role="presentation" aria-hidden="true" class="highlight"></div>
                 </div>
                 <div class="file-upload-wrapper">
-                  <input type="file" id="image" @change="handleImageUpload" accept="image/*" class="file-upload-input">
-                  <label for="image" class="file-upload-label">image</label>
-                  <span class="file-upload-filename">{{ formData.image ? formData.image.name : 'Aucun fichier choisi' }}</span>
+                    <input type="file" id="image" @change="handleImageUpload" accept="image/*"
+                        class="file-upload-input">
+                    <label for="image" class="file-upload-label">image</label>
+                    <span class="file-upload-filename">{{ formData.image ? formData.image.name : 'Aucun fichier choisi'
+                        }}</span>
                 </div>
             </div>
 
@@ -65,13 +67,8 @@
                     <div role="presentation" aria-hidden="true" class="highlight"></div>
                 </div>
                 <div class="list-select">
-                    <div
-                        class="select-item"
-                        v-for="cat in categories"
-                        :key="cat"
-                        :class="{ selected: formData.category.includes(cat) }"
-                        @click="toggleCategory(cat)"
-                    >
+                    <div class="select-item" v-for="cat in categories" :key="cat"
+                        :class="{ selected: formData.category.includes(cat) }" @click="toggleCategory(cat)">
                         {{ formatCategory(cat) }}
                     </div>
                 </div>
@@ -85,7 +82,8 @@
                     <div role="presentation" aria-hidden="true" class="highlight"></div>
                 </div>
                 <div class="styled-select-container">
-                    <select id="select-title" v-model="selectedArticleUrl" @change="handleArticleSelection" class="styled-select-article">
+                    <select id="select-title" v-model="selectedArticleUrl" @change="handleArticleSelection"
+                        class="styled-select-article">
                         <option value="">Exemple de mon titre de l'article de...</option>
                         <option value="">--- Les gros titres ---</option>
                         <option v-for="item in rssBigTitles" :key="item.link" :value="item.link">
@@ -117,19 +115,42 @@
                             {{ item.title }}
                         </option>
                     </select>
-                    <span class="icon-chevron"><svg viewBox="0 0 12 7" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <span class="icon-chevron blue"><svg viewBox="0 0 12 7" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
                             <path
                                 d="M11.2826 1.28318L6.28255 6.28318C6.21287 6.3531 6.13008 6.40857 6.03892 6.44643C5.94775 6.48428 5.85001 6.50377 5.7513 6.50377C5.65259 6.50377 5.55485 6.48428 5.46369 6.44643C5.37252 6.40857 5.28973 6.3531 5.22005 6.28318L0.220051 1.28318C0.0791548 1.14228 -2.09952e-09 0.951183 0 0.751926C2.09952e-09 0.552669 0.0791548 0.361572 0.220051 0.220676C0.360947 0.0797797 0.552044 0.000625136 0.751301 0.000625134C0.950558 0.000625131 1.14165 0.0797797 1.28255 0.220676L5.75193 4.69005L10.2213 0.220051C10.3622 0.079155 10.5533 0 10.7526 0C10.9518 0 11.1429 0.079155 11.2838 0.220051C11.4247 0.360948 11.5039 0.552044 11.5039 0.751301C11.5039 0.950559 11.4247 1.14165 11.2838 1.28255L11.2826 1.28318Z"
                                 fill="currentColor" />
                         </svg>
                     </span>
                 </div>
+            </div>
 
-                <p>mots choisis : <span id="selected-words">{{ formData.selected_words }}</span></p>
+            <div class="attribute selected-words">
+                <div class="title-container">
+                    <label for="select-title" class="title">
+                        sélection de surlignement
+                    </label>
+                    <div role="presentation" aria-hidden="true" class="highlight"></div>
+                </div>
+                <div class="selected-words-explained">
+                    Sélectionne la portion du titre à surligner en cliquant d'abord sur le mot où la sélection commence,
+                    puis sur le mot où elle se termine.
+                </div>
+                <div class="words-container" v-if="formData.selected_article">
+                    <span v-for="(word, index) in articleWords" :key="index" class="word-item"
+                        :class="{ 'selected': isWordSelected(index) }" @click="toggleWordSelection(index)">
+                        {{ word }}
+                    </span>
+                </div>
             </div>
 
             <div class="attribute">
-                <label for="content">Contenu :</label>
+                <div class="title-container">
+                    <label for="content" class="title">
+                        contenu de l'article
+                    </label>
+                    <div role="presentation" aria-hidden="true" class="highlight"></div>
+                </div>
                 <div ref="quillEditor" id="content" class="quill-editor" style="height: 250px;"></div>
             </div>
             <button type="submit">Ajouter mon article</button>
@@ -188,15 +209,19 @@ const formData = ref<FormData>({
 const quillEditor = ref<HTMLDivElement | null>(null);
 let quill: Quill | null = null;
 
+const articleWords = ref<string[]>([]);
+const selectedWordIndices = ref<number[]>([]);
+const firstSelectedIndex = ref<number | null>(null);
+
 const formatCategory = (category: string): string => {
     return category.charAt(0).toUpperCase() + category.slice(1).replace('_', ' ');
 };
 
 const toggleCategory = (cat: string) => {
     if (formData.value.category.includes(cat)) {
-        formData.value.category = formData.value.category.filter(c => c !== cat);
+        formData.value.category = [];
     } else {
-        formData.value.category.push(cat);
+        formData.value.category = [cat];
     }
 };
 
@@ -216,25 +241,54 @@ const handleArticleSelection = (event: Event) => {
     formData.value.selected_article = selectedValue ? selectedText : '';
     formData.value.selected_article_url = selectedValue;
     formData.value.selected_words = '';
-};
 
-const getSelectionText = (): string => {
-    let text = '';
-    if (window.getSelection) {
-        text = window.getSelection()?.toString() || '';
+    if (selectedText && selectedValue) {
+        articleWords.value = selectedText.split(/\s+/).filter(word => word.length > 0);
+        selectedWordIndices.value = [];
+        firstSelectedIndex.value = null;
+    } else {
+        articleWords.value = [];
+        selectedWordIndices.value = [];
+        firstSelectedIndex.value = null;
     }
-    return text;
 };
 
-const handleMouseDown = () => {
-    formData.value.selected_words = '';
+const isWordSelected = (index: number): boolean => {
+    return selectedWordIndices.value.includes(index);
 };
 
-const handleMouseUp = () => {
-    const selectedText = getSelectionText();
-    if (selectedText) {
-        formData.value.selected_words = selectedText;
+const toggleWordSelection = (index: number) => {
+    if (selectedWordIndices.value.length === 1 && selectedWordIndices.value[0] === index) {
+        selectedWordIndices.value = [];
+        firstSelectedIndex.value = null;
+        updateSelectedWords();
+        return;
     }
+
+    if (firstSelectedIndex.value === null) {
+        firstSelectedIndex.value = index;
+        selectedWordIndices.value = [index];
+        updateSelectedWords();
+        return;
+    }
+
+    const start = Math.min(firstSelectedIndex.value, index);
+    const end = Math.max(firstSelectedIndex.value, index);
+    selectedWordIndices.value = [];
+    for (let i = start; i <= end; i++) {
+        selectedWordIndices.value.push(i);
+    }
+    updateSelectedWords();
+};
+
+const updateSelectedWords = () => {
+    if (selectedWordIndices.value.length === 0) {
+        formData.value.selected_words = '';
+        return;
+    }
+
+    const selectedWords = selectedWordIndices.value.map(i => articleWords.value[i]);
+    formData.value.selected_words = selectedWords.join(' ');
 };
 
 const submitForm = async () => {
@@ -428,6 +482,35 @@ onBeforeUnmount(() => {
 
         }
 
+        .selected-words-explained {
+            color: $blue;
+            font-size: toRem(18);
+            line-height: 100%;
+        }
+
+        .words-container {
+            display: flex;
+            flex-wrap: wrap;
+            margin-top: toRem(16);
+            padding: toRem(16);
+            border: toRem(1) solid $blue;
+            border-radius: toRem(12);
+
+            .word-item {
+                padding: 0 toRem(2);
+                cursor: pointer;
+                font-size: toRem(16);
+                color: $blue;
+                transition: background-color 0.2s, transform 0.1s;
+                user-select: none;
+
+                &.selected {
+                    background-color: $lime;
+                    color: $blue;
+                }
+            }
+        }
+
         .highlight {
             display: block;
             content: '';
@@ -515,6 +598,10 @@ onBeforeUnmount(() => {
                 pointer-events: none;
                 z-index: 2;
                 color: $white;
+
+                &.blue {
+                    color: $blue;
+                }
             }
         }
 

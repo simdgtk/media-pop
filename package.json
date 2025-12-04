@@ -21,6 +21,7 @@
     },
     "dependencies": {
         "embla-carousel-vue": "^8.6.0",
-        "quill": "^2.0.3"
+        "quill": "^2.0.3",
+        "split-type": "^0.3.4"
     }
 }

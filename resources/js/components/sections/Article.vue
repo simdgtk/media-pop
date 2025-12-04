@@ -3,10 +3,10 @@
     <div class="hero-article">
         <div class="title-container">
             <div class="image-container">
-                <img :src="props.article.image ? `/storage/${props.article.image}` : 'https://via.placeholder.com/310x169'" 
+                <img :src="props.article.image ? `/storage/${props.article.image}` : 'https://via.placeholder.com/310x169'"
                      :alt="props.article.title" />
             </div>
-            <h1 class="title">{{ props.article.title }}</h1>
+            <h1 ref="titleRef" class="title">{{ props.article.title }}</h1>
         </div>
         <p class="external-title" v-if="props.article.subtitle">{{ props.article.subtitle }}</p>
     </div>
@@ -21,9 +21,10 @@
 </template>
 
 <script lang="ts" setup>
-import { defineProps } from 'vue';
+import { ref, onMounted, onUnmounted } from 'vue';
 import Content from '../Content.vue';
 import MopopIcon from '../icons/MopopIcon.vue';
+import SplitType from 'split-type';
 
 interface Article {
     id: number;
@@ -41,6 +42,33 @@ interface Article {
 const props = defineProps<{
     article: Article
 }>();
+
+const titleRef = ref<HTMLElement | null>(null);
+let splitInstance: SplitType | null = null;
+
+const handleResize = () => {
+    if (splitInstance) {
+        splitInstance.split();
+    }
+};
+
+onMounted(() => {
+    if (titleRef.value) {
+        splitInstance = new SplitType(titleRef.value, {
+            types: 'lines',
+            tagName: 'span'
+        });
+        
+        window.addEventListener('resize', handleResize);
+    }
+});
+
+onUnmounted(() => {
+    window.removeEventListener('resize', handleResize);
+    if (splitInstance) {
+        splitInstance.revert();
+    }
+});
 </script>
 
 <style lang="scss" scoped>
@@ -72,18 +100,23 @@ const props = defineProps<{
         .title {
             color: $red;
             font-size: toRem(28);
-            background-color: $lime;
             font-family: 'Font1', sans-serif;
             font-weight: 900;
             text-transform: uppercase;
             width: fit-content;
-            line-height: 1;
-            padding: toRem(2) toRem(4);
+            line-height: 1.15;
 
             position: absolute;
             bottom: 0;
             left: toRem(8);
             transform: translateY(45%);
+
+            :deep(.line) {
+                background-color: $lime;
+                padding: toRem(2) toRem(4);
+                display: inline-block;
+                width: fit-content;
+            }
         }
     }
 
