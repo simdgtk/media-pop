@@ -15,17 +15,17 @@
             </div>
         </div>
         <Popup :isOpen="isOpen" :preselected="activeCategories" @close="isOpen = false" @applyFilters="updateFilters"/>
-        
+
         <template v-for="category in categories" :key="category">
             <template v-if="shouldShowCategory(category)">
                 <div class="title-extended-container">
                     <h3 class="title-extended">{{ categoryNames[category] }}</h3>
                     <div class="border" aria-hidden="true" role="presentation"></div>
                 </div>
-                <Carousel :category="category" :bgIcon="false" :searchQuery="searchQuery"/>
+                <Carousel :category="category" :bgIcon="false" :searchQuery="searchQuery" @update-count="updateCategoryCount"/>
             </template>
         </template>
-        
+
         <MopopIcon class="bg-icon" />
         <MopopIcon class="bg-icon second" />
     </section>
@@ -54,13 +54,18 @@ const categoryNames: Record<string, string> = {
   sport: 'Sport'
 };
 
-const hasArticles = ref<Record<string, boolean>>({});
-categories.forEach(cat => hasArticles.value[cat] = true);
+const hasArticles = ref<Record<string, boolean | null>>({});
+categories.forEach(cat => hasArticles.value[cat] = null);
+
+const updateCategoryCount = ({ category, count }: { category: string, count: number }) => {
+  hasArticles.value[category] = count > 0;
+};
 
 const shouldShowCategory = (category: string) => {
   const active = activeCategories.value;
   const isActive = !active || active.includes(category) || active.includes('all');
-  return isActive && !!hasArticles.value[category];
+  const has = hasArticles.value[category];
+  return isActive && (has === null || has === true);
 };
 
 const readUrlFilters = () => {

@@ -68,10 +68,10 @@ const fetchLatest = async () => {
 const filteredArticles = computed(() => articles.value);
 
 watch(filteredArticles, (newArticles) => {
-    const count = newArticles?.length || 0;
-    nextTick(() => {
-        emit('update-count', count);
-    })
+  const count = newArticles?.length || 0;
+  nextTick(() => {
+    emit('update-count', { category: props.category, count });
+  });
 }, { immediate: true });
 
 watch(
