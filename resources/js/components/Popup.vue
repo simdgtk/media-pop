@@ -60,7 +60,6 @@
                     <button class="save-button" @click="applyFilters">filtrer les articles</button>
                 </div>
             </div>
-
         </div>
     </Transition>
 </template>

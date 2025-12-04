@@ -20,6 +20,7 @@
         "vue": "^3.5.25"
     },
     "dependencies": {
-        "embla-carousel-vue": "^8.6.0"
+        "embla-carousel-vue": "^8.6.0",
+        "quill": "^2.0.3"
     }
 }
