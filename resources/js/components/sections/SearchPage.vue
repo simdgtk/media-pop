@@ -16,48 +16,16 @@
         </div>
         <Popup :isOpen="isOpen" :preselected="activeCategories" @close="isOpen = false" @applyFilters="updateFilters"/>
         
-        <template v-if="!activeCategories || activeCategories.includes('actualite') || activeCategories.includes('all') || shouldShowCategory('actualite')">
-            <div class="title-extended-container">
-                <h3 class="title-extended">actualités</h3>
-                <div class="border"></div>
-            </div>
-            <Carousel category="actualite" :bgIcon="false" :searchQuery="searchQuery"/>
+        <template v-for="category in categories" :key="category">
+            <template v-if="shouldShowCategory(category)">
+                <div class="title-extended-container">
+                    <h3 class="title-extended">{{ categoryNames[category] }}</h3>
+                    <div class="border" aria-hidden="true" role="presentation"></div>
+                </div>
+                <Carousel :category="category" :bgIcon="false" :searchQuery="searchQuery"/>
+            </template>
         </template>
-        <template v-if="!activeCategories || activeCategories.includes('cinema') || activeCategories.includes('all') || shouldShowCategory('cinema')">
-            <div class="title-extended-container">
-                <h3 class="title-extended">cinéma</h3>
-                <div aria-hidden="true" role="presentation" class="border"></div>
-            </div>
-            <Carousel category="cinema" :bgIcon="false" :searchQuery="searchQuery"/>
-        </template>
-        <template v-if="!activeCategories || activeCategories.includes('culture') || activeCategories.includes('all') || shouldShowCategory('culture')">
-            <div class="title-extended-container">
-                <h3 class="title-extended">culture</h3>
-                <div aria-hidden="true" role="presentation" class="border"></div>
-            </div>
-            <Carousel category="culture" :bgIcon="false" :searchQuery="searchQuery" />
-        </template>
-        <template v-if="!activeCategories || activeCategories.includes('internet') || activeCategories.includes('all') || shouldShowCategory('internet')">
-            <div class="title-extended-container">
-                <h3 class="title-extended">internet</h3>
-                <div aria-hidden="true" role="presentation" class="border"></div>
-            </div>
-            <Carousel category="internet" :bgIcon="false" :searchQuery="searchQuery" />
-        </template>
-        <template v-if="!activeCategories || activeCategories.includes('musique') || activeCategories.includes('all') || shouldShowCategory('musique')">
-            <div class="title-extended-container">
-                <h3 class="title-extended">musique</h3>
-                <div aria-hidden="true" role="presentation" class="border"></div>
-            </div>
-            <Carousel category="musique" :bgIcon="false" :searchQuery="searchQuery" />
-        </template>
-        <template v-if="!activeCategories || activeCategories.includes('sport') || activeCategories.includes('all') || shouldShowCategory('category')">
-            <div class="title-extended-container">
-                <h3 class="title-extended">sport</h3>
-                <div aria-hidden="true" role="presentation" class="border"></div>
-            </div>
-            <Carousel category="sport" :bgIcon="false" :searchQuery="searchQuery" />
-        </template>
+        
         <MopopIcon class="bg-icon" />
         <MopopIcon class="bg-icon second" />
     </section>
@@ -89,13 +57,10 @@ const categoryNames: Record<string, string> = {
 const hasArticles = ref<Record<string, boolean>>({});
 categories.forEach(cat => hasArticles.value[cat] = true);
 
-const updateHasArticles = (category: string, value: boolean) => {
-  hasArticles.value[category] = value;
-};
-
 const shouldShowCategory = (category: string) => {
-  return (!activeCategories.value || activeCategories.value.includes(category) || activeCategories.value.includes('all')) 
-         && hasArticles.value[category];
+  const active = activeCategories.value;
+  const isActive = !active || active.includes(category) || active.includes('all');
+  return isActive && !!hasArticles.value[category];
 };
 
 const readUrlFilters = () => {
