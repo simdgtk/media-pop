@@ -1,6 +1,9 @@
 <template>
     <div class="embla carousel" ref="emblaRef">
-        <div class="embla__container">
+        <div v-if="!filteredArticles.length" class="no-results">
+        Aucun résultat
+        </div>
+        <div v-else class="embla__container">
             <a :href="`/article-test/${article.id}`" v-for="article in filteredArticles" :key="article.id" class="embla__slide article">
                 <div class="image-container">
                     <img v-if="article.image_url" :src="article.image_url" :alt="article.title" />
