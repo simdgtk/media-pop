@@ -22,9 +22,9 @@
     @endif
 </head>
 
-<body style="background-color: #4F49FE;">
+<body style="background-color: #4F49FE; color: #FFFFFF;">
     <div id="app">
-        <navbar></navbar>
+        <navbar color1="#4F49FD" color2="#B8FF93"></navbar>
         <navbar-bottom></navbar-bottom>
         <search-page></search-page>
     </div>

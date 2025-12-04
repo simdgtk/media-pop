@@ -44,6 +44,7 @@
                                 <div role="presentation" aria-hidden="true" class="highlight"></div>
                             </div>
                             <div class="list-select">
+                                <div class="select-item" :class="{ selected: isAllSelected }" @click="selectAll" >Tout</div>
                                 <div
                                     class="select-item"
                                     v-for="cat in categories"
@@ -59,7 +60,6 @@
                     <button class="save-button" @click="applyFilters">filtrer les articles</button>
                 </div>
             </div>
-
         </div>
     </Transition>
 </template>
@@ -71,6 +71,7 @@ import Pop from './icons/Pop.vue';
 
 const props = defineProps<{
     isOpen: boolean;
+    preselected?: string[] | null;
 }>();
 
 const emit = defineEmits<{
@@ -173,21 +174,53 @@ const categories = ref([
     "sport"
 ]);
 
-const selectedCategories = ref<string[]>([]);
+const selectedCategories = ref<string[]>(props.preselected ?? ['all']);
+
+const isAllSelected = computed(() => selectedCategories.value.includes('all'));
+
+const selectAll = () => {
+    selectedCategories.value = ['all'];
+};
 
 const toggleCategory = (cat: string) => {
+    if (isAllSelected.value) {
+        selectedCategories.value = [];
+    }
+
     if (selectedCategories.value.includes(cat)) {
         selectedCategories.value = selectedCategories.value.filter(c => c !== cat);
     } else {
         selectedCategories.value.push(cat);
     }
+
+    if (selectedCategories.value.length === 0) {
+        selectedCategories.value = ['all'];
+    }
 };
 
 const applyFilters = () => {
+    const url = new URL(window.location.href);
+    url.searchParams.delete('cat');
+
+    if (!isAllSelected.value) {
+        selectedCategories.value.forEach(c => url.searchParams.append('cat', c));
+    }
+
+    history.replaceState(null, '', url);
     emit("applyFilters", selectedCategories.value);
     emit("close");
 };
 
+
+
+
+watch(() => props.preselected, (value) => {
+    if (value && value.length > 0) {
+        selectedCategories.value = [...value];
+    } else {
+        selectedCategories.value = [];
+    }
+});
 </script>
 
 <style scoped lang="scss">

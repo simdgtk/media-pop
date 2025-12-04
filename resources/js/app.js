@@ -6,6 +6,7 @@ import Categories from './components/sections/Categories.vue';
 import Article from './components/sections/Article.vue';
 import BottomNav from './components/sections/BottomNav.vue';
 import SearchPage from './components/sections/SearchPage.vue';
+import CreateArticle from './components/CreateArticle.vue';
 
 const app = createApp({});
 
@@ -15,6 +16,7 @@ app.component('categories', Categories);
 app.component("article-component", Article);
 app.component("navbar-bottom", BottomNav);
 app.component("search-page", SearchPage);
+app.component("create-article", CreateArticle);
 app.mount('#app');
 import Alpine from 'alpinejs';
 
