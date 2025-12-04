@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Article;
 use App\Models\Article as ArticleModel;
+use App\Models\Auteur;
 
 Route::get('/', function () {
     $article = \App\Models\Article::first();
@@ -29,6 +30,11 @@ Route::get('/dashboard', function () {
 Route::get('/article/create', [Article::class, 'createVue'])
     ->middleware(['auth', 'verified', \App\Http\Middleware\EnsureUserIsAdmin::class])
     ->name('admin.dashboard');
+
+Route::get('/auteurs', function () {
+    return response()->json(Auteur::all(['id', 'nom']));
+});
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

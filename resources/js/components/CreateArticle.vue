@@ -24,7 +24,23 @@
                     </label>
                     <div role="presentation" aria-hidden="true" class="highlight"></div>
                 </div>
+
                 <div class="styled-select-container">
+                    <select id="author" v-model="formData.author" required class="styled-select">
+                        <option value="" disabled selected>select</option>
+                        <option v-for="author in authors" :key="author.id" :value="author.id">
+                            {{ author.nom }}
+                        </option>
+                    </select>
+                    <span class="icon-chevron"><svg viewBox="0 0 12 7" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M11.2826 1.28318L6.28255 6.28318C6.21287 6.3531 6.13008 6.40857 6.03892 6.44643C5.94775 6.48428 5.85001 6.50377 5.7513 6.50377C5.65259 6.50377 5.55485 6.48428 5.46369 6.44643C5.37252 6.40857 5.28973 6.3531 5.22005 6.28318L0.220051 1.28318C0.0791548 1.14228 -2.09952e-09 0.951183 0 0.751926C2.09952e-09 0.552669 0.0791548 0.361572 0.220051 0.220676C0.360947 0.0797797 0.552044 0.000625136 0.751301 0.000625134C0.950558 0.000625131 1.14165 0.0797797 1.28255 0.220676L5.75193 4.69005L10.2213 0.220051C10.3622 0.079155 10.5533 0 10.7526 0C10.9518 0 11.1429 0.079155 11.2838 0.220051C11.4247 0.360948 11.5039 0.552044 11.5039 0.751301C11.5039 0.950559 11.4247 1.14165 11.2838 1.28255L11.2826 1.28318Z"
+                                fill="currentColor" />
+                        </svg>
+                    </span>
+                </div>
+
+                <!-- <div class="styled-select-container">
                     <select id="author" v-model="formData.author" required class="styled-select">
                         <option value="" disabled selected>select</option>
                         <option value="Luffy">Luffy</option>
@@ -39,7 +55,7 @@
                                 fill="currentColor" />
                         </svg>
                     </span>
-                </div>
+                </div> -->
             </div>
 
 
@@ -354,6 +370,21 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
     quill = null;
+});
+
+const authors = ref<{ id: number; nom: string }[]>([]);
+
+onMounted(async () => {
+    try {
+        const res = await fetch('/auteurs');
+        if (res.ok) {
+            authors.value = await res.json();
+        } else {
+            console.error('Erreur lors de la récupération des auteurs');
+        }
+    } catch (err) {
+        console.error('Erreur fetch auteurs:', err);
+    }
 });
 </script>
 

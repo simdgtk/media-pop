@@ -53,4 +53,10 @@ class Article extends Model
             self::CATEGORY_ART,
         ];
     }
+
+    public function auteur()
+    {
+        return $this->belongsTo(Auteur::class, 'author', 'id');
+    }
+
 }

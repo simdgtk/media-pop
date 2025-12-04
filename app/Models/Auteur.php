@@ -15,6 +15,19 @@ class Auteur extends Model
         'image',
     ];
 
+    public function articles()
+    {
+        return $this->hasMany(Article::class, 'author', 'id');
+    }
+
+    public function getImageURLAttribute(): ?string
+    {
+        if (!$this->image) {
+            return null;
+        }
+        return asset('storage/' . $this->image);
+    }
+
     /**
      * The attributes that should be hidden for serialization.
      *

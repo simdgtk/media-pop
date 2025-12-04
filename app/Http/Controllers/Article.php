@@ -11,10 +11,12 @@ class Article extends Controller
 {
     public function index()
     {
-        // On ne garde qu'un seul article par titre (le plus récent)
-        $articles = ArticleBdd::orderByDesc('created_at')->get()->unique(function ($item) {
-            return trim(mb_strtolower($item->title));
-        })->values();
+        $articles = ArticleBdd::with('auteur')
+            ->orderByDesc('created_at')
+            ->get()
+            ->unique(fn($item) => trim(mb_strtolower($item->title)))
+            ->values();
+        
         return view('articles', ['articles' => $articles]);
     }
 
@@ -82,7 +84,7 @@ class Article extends Controller
     {
         $validated = $request->validate([
             'title' => 'required|string|max:255',
-            'author' => 'required|string|max:255',
+            'author' => 'required|exists:auteurs,id',
             'content' => 'required|string',
             'category' => 'required|array',
             'category.*' => 'string',
