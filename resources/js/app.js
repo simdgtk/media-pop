@@ -17,6 +17,8 @@ app.component("article-component", Article);
 app.component("navbar-bottom", BottomNav);
 app.component("search-page", SearchPage);
 app.component("create-article", CreateArticle);
+import OnboardingPopup from './components/OnboardingPopup.vue';
+app.component("onboarding-popup", OnboardingPopup);
 app.mount('#app');
 import Alpine from 'alpinejs';
 

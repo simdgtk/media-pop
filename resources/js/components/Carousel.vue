@@ -129,10 +129,6 @@ const filteredArticles = computed(() => articles.value);
 
     padding-left: toRem(20);
 
-    &:last-of-type {
-        margin-right: toRem(20);
-    }
-
     .image-container {
         border-radius: toRem(8);
         overflow: hidden;

@@ -7,7 +7,6 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
 
@@ -18,13 +17,12 @@
     <meta name="apple-mobile-web-app-title" content="Mopop" />
     <link rel="manifest" href="/site.webmanifest" />
 
-    <!-- Styles / Scripts -->
     @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
     @vite(['resources/css/main.scss', 'resources/js/app.js'])
     @endif
 </head>
 
-<body>
+<body style="background-color: #FD494A; color: #FFFFFF;">
     <div id="app">
         <navbar color1="#FD494A" color2="#B8FF93"></navbar>
         <article-component :article='@json($article)'></article-component>

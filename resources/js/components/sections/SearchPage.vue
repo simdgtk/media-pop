@@ -153,6 +153,7 @@ const updateFilters = (cats: string[]) => {
             outline: none;
             transition: border-color 0.2s ease;
             background-color: $white;
+            color: $black;
 
             &::placeholder {
                 color: $light-blue;

@@ -1,6 +1,6 @@
 <template>
 <section class="content">
-    <TextContent :content="props.articleContent" />
+    <TextContent :content="props.article?.content" />
     <footer class="content-footer">
         <div class="footer-container">
             <div class="author-infos">
@@ -8,27 +8,43 @@
                     <img src="https://images.unsplash.com/photo-1761839258753-85d8eecbbc29?q=80&w=3270&auto=format&fit=crop" alt="Auteur"/>
                 </figure>
                 <address class="author">
-                    <strong>{{ props.articleContent?.author ?? 'Auteur inconnu' }}</strong>
+                    <strong>{{ props.article?.author ?? 'Auteur inconnu' }}</strong>
                     <i>"J'écris des articles cool"</i>
                 </address>
             </div>
-            <Button class="share-button" text="partager" reverse>
-                <template #icon>
-                    <Share />
-                </template>
-            </Button>
+            <div class="buttons">
+                <Button class="share-button" text="like" reverse @click="isFilled = !isFilled">
+                    <template #icon>
+                        <HeartBold :fill="isFilled" />
+                    </template>
+                </Button>
+                <Button class="share-button" text="partager" reverse>
+                    <template #icon>
+                        <Share />
+                    </template>
+                </Button>
+            </div>
         </div>
     </footer>
 </section>
 </template>
 
 <script lang="ts" setup>
+import { ref } from 'vue';
 import TextContent from './TextContent.vue';
 import Button from '../Button.vue';
 import Share from './icons/Share.vue';
+import HeartBold from './icons/HeartBold.vue';
+
+const isFilled = ref(false);
+
+interface Article {
+    content?: string;
+    author?: string;
+}
 
 const props = defineProps<{
-    articleContent?: string
+    article?: Article
 }>();
 </script>
 
@@ -41,6 +57,12 @@ const props = defineProps<{
             display: flex;
             flex-direction: column;
             gap: toRem(20);
+
+            .buttons {
+                display: flex;
+                flex-direction: row;
+                gap: toRem(8);
+            }
 
             .author-infos {
                 display: flex;
@@ -74,6 +96,10 @@ const props = defineProps<{
 
         .share-button {
             align-self: flex-start;
+
+            span {
+                display: flex;
+            }
         }
     }
 }

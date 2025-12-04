@@ -6,14 +6,14 @@
                 <img :src="props.article.image ? `/storage/${props.article.image}` : 'https://via.placeholder.com/310x169'"
                      :alt="props.article.title" />
             </div>
-            <h1 ref="titleRef" class="title">{{ props.article.title }}</h1>
+            <h1 ref="titleRef" class="title"><span class="highlight">{{ props.article.title }}</span></h1>
         </div>
         <p class="external-title" v-if="props.article.subtitle">{{ props.article.subtitle }}</p>
     </div>
 
     <div class="content-container-wrapper">
         <div class="content-container">
-            <Content :article-content="props.article.content"/>
+            <Content :article="props.article"/>
         </div>
         <MopopIcon class="bg-icon"/>
     </div>
@@ -21,10 +21,9 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref } from 'vue';
 import Content from '../Content.vue';
 import MopopIcon from '../icons/MopopIcon.vue';
-import SplitType from 'split-type';
 
 interface Article {
     id: number;
@@ -44,31 +43,6 @@ const props = defineProps<{
 }>();
 
 const titleRef = ref<HTMLElement | null>(null);
-let splitInstance: SplitType | null = null;
-
-const handleResize = () => {
-    if (splitInstance) {
-        splitInstance.split();
-    }
-};
-
-onMounted(() => {
-    if (titleRef.value) {
-        splitInstance = new SplitType(titleRef.value, {
-            types: 'lines',
-            tagName: 'span'
-        });
-        
-        window.addEventListener('resize', handleResize);
-    }
-});
-
-onUnmounted(() => {
-    window.removeEventListener('resize', handleResize);
-    if (splitInstance) {
-        splitInstance.revert();
-    }
-});
 </script>
 
 <style lang="scss" scoped>
@@ -99,23 +73,25 @@ onUnmounted(() => {
 
         .title {
             color: $red;
-            font-size: toRem(28);
-            font-family: 'Font1', sans-serif;
-            font-weight: 900;
-            text-transform: uppercase;
-            width: fit-content;
-            line-height: 1.15;
-
             position: absolute;
             bottom: 0;
             left: toRem(8);
+            width: calc(100% - #{toRem(16)});
             transform: translateY(45%);
+            word-wrap: break-word;
+            pointer-events: none;
 
-            :deep(.line) {
+            .highlight {
                 background-color: $lime;
+                line-height: 1.15;
+                font-size: toRem(28);
+                font-family: 'Font1', sans-serif;
+                font-weight: 900;
+                text-transform: uppercase;
                 padding: toRem(2) toRem(4);
-                display: inline-block;
-                width: fit-content;
+                display: inline;
+                box-decoration-break: clone;
+                -webkit-box-decoration-break: clone;
             }
         }
     }
