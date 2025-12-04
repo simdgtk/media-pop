@@ -23,7 +23,6 @@
 </template>
 
 <script lang="ts" setup>
-import { defineProps } from 'vue';
 import TextContent from './TextContent.vue';
 import Button from '../Button.vue';
 import Share from './icons/Share.vue';

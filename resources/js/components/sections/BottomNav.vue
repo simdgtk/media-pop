@@ -119,7 +119,7 @@ function choose(tab: string) {
         }
 
         &.fill {
-            ::v-deep .icon {
+            :deep(.icon) {
                 color: $blue;
             }
 

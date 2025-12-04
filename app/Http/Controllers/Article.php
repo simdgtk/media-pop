@@ -11,18 +11,21 @@ class Article extends Controller
 {
     public function index()
     {
-        $articles = ArticleBdd::all();
+        // On ne garde qu'un seul article par titre (le plus récent)
+        $articles = ArticleBdd::orderByDesc('created_at')->get()->unique(function ($item) {
+            return trim(mb_strtolower($item->title));
+        })->values();
         return view('articles', ['articles' => $articles]);
     }
 
     public function create(RssService $rssService)
     {
-        $rssBigTitles = $rssService->fetch('https://www.franceinfo.fr/titres.rss');
-        $rssCultureTitles = $rssService->fetch('https://www.franceinfo.fr/culture.rss');
-        $rssInternetTitles = $rssService->fetch('https://www.franceinfo.fr/internet.rss');
-        $rssMusiqueTitles = $rssService->fetch('https://www.franceinfo.fr/culture/musique.rss');
-        $rssCinemaTitles = $rssService->fetch('https://www.franceinfo.fr/culture/cinema.rss');
-        $rssSportTitles = $rssService->fetch('https://www.franceinfo.fr/sports.rss');
+        $rssBigTitles = $this->removeDuplicateTitles($rssService->fetch('https://www.franceinfo.fr/titres.rss'));
+        $rssCultureTitles = $this->removeDuplicateTitles($rssService->fetch('https://www.franceinfo.fr/culture.rss'));
+        $rssInternetTitles = $this->removeDuplicateTitles($rssService->fetch('https://www.franceinfo.fr/internet.rss'));
+        $rssMusiqueTitles = $this->removeDuplicateTitles($rssService->fetch('https://www.franceinfo.fr/culture/musique.rss'));
+        $rssCinemaTitles = $this->removeDuplicateTitles($rssService->fetch('https://www.franceinfo.fr/culture/cinema.rss'));
+        $rssSportTitles = $this->removeDuplicateTitles($rssService->fetch('https://www.franceinfo.fr/sports.rss'));
 
         $categories = [
             'actualite',
@@ -46,12 +49,12 @@ class Article extends Controller
 
     public function createVue(RssService $rssService)
     {
-        $rssBigTitles = $rssService->fetch('https://www.franceinfo.fr/titres.rss');
-        $rssCultureTitles = $rssService->fetch('https://www.franceinfo.fr/culture.rss');
-        $rssInternetTitles = $rssService->fetch('https://www.franceinfo.fr/internet.rss');
-        $rssMusiqueTitles = $rssService->fetch('https://www.franceinfo.fr/culture/musique.rss');
-        $rssCinemaTitles = $rssService->fetch('https://www.franceinfo.fr/culture/cinema.rss');
-        $rssSportTitles = $rssService->fetch('https://www.franceinfo.fr/sports.rss');
+        $rssBigTitles = $this->removeDuplicateTitles($rssService->fetch('https://www.franceinfo.fr/titres.rss'));
+        $rssCultureTitles = $this->removeDuplicateTitles($rssService->fetch('https://www.franceinfo.fr/culture.rss'));
+        $rssInternetTitles = $this->removeDuplicateTitles($rssService->fetch('https://www.franceinfo.fr/internet.rss'));
+        $rssMusiqueTitles = $this->removeDuplicateTitles($rssService->fetch('https://www.franceinfo.fr/culture/musique.rss'));
+        $rssCinemaTitles = $this->removeDuplicateTitles($rssService->fetch('https://www.franceinfo.fr/culture/cinema.rss'));
+        $rssSportTitles = $this->removeDuplicateTitles($rssService->fetch('https://www.franceinfo.fr/sports.rss'));
 
         $categories = [
             'actualite',
@@ -88,6 +91,16 @@ class Article extends Controller
             'selected_article_url' => 'nullable|string',
             'selected_words' => 'nullable'
         ]);
+
+        $normalizedTitle = trim(mb_strtolower($validated['title']));
+        $hasDuplicate = ArticleBdd::all()->contains(function ($article) use ($normalizedTitle) {
+            return trim(mb_strtolower($article->title)) === $normalizedTitle;
+        });
+        if ($hasDuplicate) {
+            return redirect()->back()
+                ->withInput()
+                ->withErrors(['title' => 'Un article avec ce titre existe déjà.']);
+        }
 
         $imagePath = null;
         if ($request->hasFile('image') && $request->file('image')->isValid()) {
@@ -179,6 +192,20 @@ class Article extends Controller
         return $text;
     }
 
+    private function removeDuplicateTitles(array $items): array
+    {
+        $seen = [];
+        $result = [];
 
+        foreach ($items as $item) {
+            $normalizedTitle = trim(mb_strtolower($item['title'] ?? ''));
+            if (!in_array($normalizedTitle, $seen)) {
+                $seen[] = $normalizedTitle;
+                $result[] = $item;
+            }
+        }
+
+        return $result;
+    }
 
 }
