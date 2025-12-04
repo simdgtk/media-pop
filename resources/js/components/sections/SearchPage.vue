@@ -14,43 +14,43 @@
                 </Button>
             </div>
         </div>
-        <Popup :isOpen="isOpen" @close="isOpen = false" @applyFilters="updateFilters"/>
-        <template v-if="!activeCategories || activeCategories.includes('actualite')">
+        <Popup :isOpen="isOpen" :preselected="activeCategories" @close="isOpen = false" @applyFilters="updateFilters"/>
+        <template v-if="!activeCategories || activeCategories.includes('actualite') || activeCategories.includes('all')">
             <div class="title-extended-container">
                 <h3 class="title-extended">actualités</h3>
                 <div class="border"></div>
             </div>
             <Carousel category="actualite" :bgIcon="false" />
         </template>
-        <template v-if="!activeCategories || activeCategories.includes('cinema')">
+        <template v-if="!activeCategories || activeCategories.includes('cinema') || activeCategories.includes('all')">
             <div class="title-extended-container">
                 <h3 class="title-extended">cinéma</h3>
                 <div aria-hidden="true" role="presentation" class="border"></div>
             </div>
             <Carousel category="cinema" :bgIcon="false" />
         </template>
-        <template v-if="!activeCategories || activeCategories.includes('culture')">
+        <template v-if="!activeCategories || activeCategories.includes('culture') || activeCategories.includes('all')">
             <div class="title-extended-container">
                 <h3 class="title-extended">culture</h3>
                 <div aria-hidden="true" role="presentation" class="border"></div>
             </div>
             <Carousel category="culture" :bgIcon="false" />
         </template>
-        <template v-if="!activeCategories || activeCategories.includes('internet')">
+        <template v-if="!activeCategories || activeCategories.includes('internet') || activeCategories.includes('all')">
             <div class="title-extended-container">
                 <h3 class="title-extended">internet</h3>
                 <div aria-hidden="true" role="presentation" class="border"></div>
             </div>
             <Carousel category="internet" :bgIcon="false" />
         </template>
-        <template v-if="!activeCategories || activeCategories.includes('musique')">
+        <template v-if="!activeCategories || activeCategories.includes('musique') || activeCategories.includes('all')">
             <div class="title-extended-container">
                 <h3 class="title-extended">musique</h3>
                 <div aria-hidden="true" role="presentation" class="border"></div>
             </div>
             <Carousel category="musique" :bgIcon="false" />
         </template>
-        <template v-if="!activeCategories || activeCategories.includes('sport')">
+        <template v-if="!activeCategories || activeCategories.includes('sport') || activeCategories.includes('all')">
             <div class="title-extended-container">
                 <h3 class="title-extended">sport</h3>
                 <div aria-hidden="true" role="presentation" class="border"></div>
@@ -63,7 +63,20 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
+
+const activeCategories = ref<string[] | null>(null);
+
+const readUrlFilters = () => {
+    const params = new URLSearchParams(window.location.search);
+    const catQuery = params.getAll('cat'); 
+
+    activeCategories.value = catQuery.length ? catQuery : null;
+};
+
+readUrlFilters();
+
+
 import Search from '../icons/Search.vue';
 import Button from '../../Button.vue';
 import Filter from '../icons/Filter.vue';
@@ -73,12 +86,9 @@ import MopopIcon from '../icons/MopopIcon.vue';
 
 const isOpen = ref(false);
 
-const activeCategories = ref<string[] | null>(null);
-
 const updateFilters = (cats: string[]) => {
     activeCategories.value = cats;
 };
-
 </script>
 
 <style lang="scss" scoped>
