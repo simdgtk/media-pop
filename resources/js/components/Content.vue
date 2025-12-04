@@ -5,20 +5,12 @@
         <div class="footer-container">
             <div class="author-infos">
                 <figure class="image-container">
-                    <img :src="props.article?.auteur?.image_url ?? 'default-author.jpg'" :alt="props.article?.auteur?.nom ?? 'Auteur inconnu'"/>
+                    <img :src="article.auteur?.image ? `/storage/${article.auteur.image}` : 'default-author.jpg'" :alt="article.auteur?.nom ?? 'Auteur inconnu'" />
                 </figure>
                 <address class="author">
-                    <strong>{{ props.article?.auteur?.nom ?? 'Auteur inconnu' }}</strong>
-                    <i>{{ props.article?.auteur?.description ?? "Pas de description" }}</i>
+                    <strong>{{ article.auteur?.nom ?? 'Auteur inconnu' }}</strong>
+                    <i>{{ article.auteur?.description ?? 'Pas de description' }}</i>
                 </address>
-
-                <!-- <figure class="image-container">
-                    <img src="https://images.unsplash.com/photo-1761839258753-85d8eecbbc29?q=80&w=3270&auto=format&fit=crop" alt="Auteur"/>
-                </figure>
-                <address class="author">
-                    <strong>{{ props.articleContent?.author ?? 'Auteur inconnu' }}</strong>
-                    <i>"J'écris des articles cool"</i>
-                </address> -->
             </div>
             <Button class="share-button" text="partager" reverse>
                 <template #icon>
@@ -41,11 +33,13 @@ const props = defineProps<{
         content: string,
         auteur?: {
             nom: string,
-            image_url: string,
-            description: string
+            description: string;
+            image_url: string;
         }
     }
 }>();
+
+const article = props.article;
 
 </script>
 

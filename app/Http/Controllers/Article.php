@@ -210,4 +210,14 @@ class Article extends Controller
         return $result;
     }
 
+    public function show($id)
+    {
+        $article = Article::with('auteur')->find($id);
+
+        if (!$article) {
+            return response()->json(['message' => 'Article non trouvé'], 404);
+        }
+
+        return response()->json($article);
+    }
 }

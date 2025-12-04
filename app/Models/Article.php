@@ -56,7 +56,7 @@ class Article extends Model
 
     public function auteur()
     {
-        return $this->belongsTo(Auteur::class, 'author', 'id');
+        return $this->belongsTo(Auteur::class, 'author');
     }
 
 }

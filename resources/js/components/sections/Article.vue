@@ -3,19 +3,19 @@
     <div class="hero-article">
         <div class="title-container">
             <div class="image-container">
-                <img :src="props.article.image ? `/storage/${props.article.image}` : 'https://via.placeholder.com/310x169'"
-                     :alt="props.article.title" />
+                <img :src="article.image_url ?? 'https://via.placeholder.com/310x169'" 
+                     :alt="article.title" />
             </div>
-            <h1 ref="titleRef" class="title">{{ props.article.title }}</h1>
+            <h1 ref="titleRef" class="title">{{ article.title }}</h1>
         </div>
-        <p class="external-title" v-if="props.article.subtitle">{{ props.article.subtitle }}</p>
+        <p class="external-title" v-if="article.subtitle">{{ article.subtitle }}</p>
     </div>
 
     <div class="content-container-wrapper">
         <div class="content-container">
-            <Content :article-content="props.article.content"/>
+            <Content :article="article" />
         </div>
-        <MopopIcon class="bg-icon"/>
+        <MopopIcon class="bg-icon" />
     </div>
 </section>
 </template>
@@ -26,49 +26,48 @@ import Content from '../Content.vue';
 import MopopIcon from '../icons/MopopIcon.vue';
 import SplitType from 'split-type';
 
+interface Auteur {
+    nom: string;
+    description: string;
+    image_url: string;
+}
+
 interface Article {
     id: number;
     title: string;
     subtitle?: string;
     content?: string;
-    image?: string;
-    author?: string;
+    image_url?: string;
+    auteur?: string;
     source_title?: string;
     source_url?: string;
     category?: string[];
     published_at?: string;
 }
 
-const props = defineProps<{
-    article: Article
-}>();
+const props = defineProps<{ article: Article }>();
+const article = props.article;
 
 const titleRef = ref<HTMLElement | null>(null);
 let splitInstance: SplitType | null = null;
 
-const handleResize = () => {
-    if (splitInstance) {
-        splitInstance.split();
-    }
-};
+const handleResize = () => splitInstance?.split();
 
 onMounted(() => {
     if (titleRef.value) {
         splitInstance = new SplitType(titleRef.value, {
             types: 'lines',
-            tagName: 'span'
+            tagName: 'span',
         });
-        
         window.addEventListener('resize', handleResize);
     }
 });
 
 onUnmounted(() => {
     window.removeEventListener('resize', handleResize);
-    if (splitInstance) {
-        splitInstance.revert();
-    }
+    splitInstance?.revert();
 });
+
 </script>
 
 <style lang="scss" scoped>

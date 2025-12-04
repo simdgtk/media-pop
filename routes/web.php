@@ -13,8 +13,9 @@ Route::get('/', function () {
     return view('welcome', ['newsTitle' => $newsTitle]);
 });
 
+Route::get('/articles/{id}', [Article::class, 'show']);
 Route::get('/article-test/{id}', function ($id) {
-    $article = ArticleModel::findOrFail($id);
+    $article = ArticleModel::with('auteur')->findOrFail($id);
     return view('article-test', ['article' => $article]);
 });
 
