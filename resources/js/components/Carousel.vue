@@ -12,18 +12,6 @@
                     <h3 class="article-name">{{ article.title }}</h3>
                 </div>
             </a>
-            <div class="embla__slide article">
-                <div class="image-container">
-                    <img src="https://images.unsplash.com/photo-1761839258753-85d8eecbbc29?q=80&w=3270&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                        alt="Article Image" />
-                </div>
-                <div class="article-names">
-                    <p class="external-article-name">Comment le drapeau de <span class="highlight">One Piece</span> est
-                        devenu un symbole de révolte
-                        chez la Gen Z ?</p>
-                    <h3 class="article-name">Ou quels sont les messages cachés derrière cette oeuvre ? </h3>
-                </div>
-            </div>
         </div>
 
         <Mo v-if="bgIcon" class="icon-background" />
@@ -32,7 +20,7 @@
 
 <script lang="ts" setup>
 import emblaCarouselVue from 'embla-carousel-vue'
-import { ref, onMounted, computed, defineProps } from 'vue'
+import { ref, onMounted, computed, defineProps, watch, nextTick } from 'vue'
 import Mo from './icons/Mo.vue'
 
 interface ArticleData {
@@ -49,6 +37,7 @@ interface ArticleData {
 const props = defineProps<{
     category?: string | null
     bgIcon?: boolean
+    searchQuery?: string
 }>()
 
 const bgIcon = props.bgIcon ?? false;
@@ -58,12 +47,11 @@ const articles = ref<ArticleData[]>([])
 
 const fetchLatest = async () => {
     try {
-        let url = '/articles/latest';
-        if (props.category) {
-            url += `?category=${encodeURIComponent(props.category)}`;
-        }
+        const params = new URLSearchParams();
+        if (props.category) params.append('category', props.category);
+        if (props.searchQuery) params.append('search', props.searchQuery);
 
-        const res = await fetch(url);
+        const res = await fetch(`/articles/latest?${params.toString()}`);
         if (!res.ok) {
             console.error('articles latest returned', res.status);
             return;
@@ -73,17 +61,29 @@ const fetchLatest = async () => {
         articles.value = data;
     } catch (err) {
         console.error('Failed to fetch latest articles', err);
+        articles.value = [];
     }
 }
 
-
-onMounted(fetchLatest)
-
 const filteredArticles = computed(() => articles.value);
 
+watch(filteredArticles, (newArticles) => {
+    const count = newArticles?.length || 0;
+    nextTick(() => {
+        emit('update-count', count);
+    })
+}, { immediate: true });
+
+watch(
+    () => props.searchQuery,
+    () => {
+        fetchLatest();
+    },
+    { immediate: true }
+);
+
+onMounted(fetchLatest);
 </script>
-
-
 
 <style lang="scss" scoped>
 .embla {

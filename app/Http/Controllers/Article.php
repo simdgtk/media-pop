@@ -134,6 +134,15 @@ class Article extends Controller
             $query->whereJsonContains('category', $category);
         }
 
+        if ($request->has('search') && $request->search) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('title', 'like', "%{$search}%")
+                ->orWhere('source_title', 'like', "%{$search}%");
+            });
+        }
+
+
         $articles = $query->get();
 
         $payload = $articles->map(function ($article) {
