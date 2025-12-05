@@ -142,7 +142,7 @@ class Article extends Controller
 
     public function latest(Request $request)
     {
-        $query = ArticleBdd::orderByDesc('created_at')->limit(5);
+        $query = ArticleBdd::with('auteur')->orderByDesc('created_at')->limit(5);
 
         if ($request->has('category') && $request->category) {
             $category = $request->category;
@@ -170,6 +170,12 @@ class Article extends Controller
                 'source_url' => $article->source_url,
                 'created_at' => $article->created_at,
                 'category' => $article->category,
+                'auteur' => $article->auteur ? [
+                    'nom' => $article->auteur->nom,
+                    'image' => $article->auteur->image,
+                    'image_url' => $article->auteur->image_url,
+                    'description' => $article->auteur->description,
+                ] : null,
             ];
         });
 
