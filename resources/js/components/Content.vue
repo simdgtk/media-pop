@@ -1,16 +1,16 @@
 <template>
     <section class="content">
-        <TextContent :content="props.article?.content" />
+        <TextContent :content="props.articleContent" />
         <footer class="content-footer">
             <div class="footer-container">
                 <div class="author-infos">
                     <figure class="image-container">
-                        <img src="https://images.unsplash.com/photo-1761839258753-85d8eecbbc29?q=80&w=3270&auto=format&fit=crop"
-                            alt="Auteur" />
+                        <img :src="article.auteur?.image_url ?? '/images/default-author.jpg'"
+                            :alt="article.auteur?.nom ?? 'Auteur inconnu'" />
                     </figure>
                     <address class="author">
-                        <strong>{{ props.article?.author ?? 'Auteur inconnu' }}</strong>
-                        <i>"J'écris des articles cool"</i>
+                        <strong>{{ article.auteur?.nom ?? 'Auteur inconnu' }}</strong>
+                        <i>{{ article.auteur?.description ?? 'Pas de description' }}</i>
                     </address>
                 </div>
                 <div class="buttons">
@@ -39,14 +39,21 @@ import HeartBold from './icons/HeartBold.vue';
 
 const isFilled = ref(false);
 
-interface Article {
-    content?: string;
-    author?: string;
-}
 
 const props = defineProps<{
-    article?: Article
+    article?: {
+        title: string,
+        content: string,
+        auteur?: {
+            nom: string,
+            description: string;
+            image_url: string;
+        }
+    }
 }>();
+
+const article = props.article;
+
 </script>
 
 <style lang="scss" scoped>
