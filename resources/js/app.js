@@ -11,6 +11,7 @@ import CreateArticle from './components/CreateArticle.vue';
 import UpdateProfileForm from './components/UpdateProfileForm.vue';
 import OnboardingPopup from "./components/OnBoarding.vue";
 import LoginForm from './components/LoginForm.vue';
+import RegisterForm from './components/RegisterForm.vue';
 
 const app = createApp({});
 
@@ -25,6 +26,7 @@ app.component("favorite-page", FavoritePage);
 app.component("create-article", CreateArticle);
 app.component("update-profile-form", UpdateProfileForm);
 app.component("login-form", LoginForm);
+app.component("register-form", RegisterForm);
 app.mount('#app');
 import Alpine from 'alpinejs';
 
