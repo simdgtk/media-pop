@@ -23,7 +23,7 @@
 
 <script lang="ts" setup>
 import emblaCarouselVue from 'embla-carousel-vue'
-import { ref, onMounted, computed, defineProps, watch, nextTick } from 'vue'
+import { ref, onMounted, computed, watch, nextTick } from 'vue'
 import Mo from './icons/Mo.vue'
 
 interface ArticleData {
