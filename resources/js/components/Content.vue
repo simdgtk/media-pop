@@ -1,6 +1,6 @@
 <template>
     <section class="content">
-        <TextContent :content="props.articleContent" />
+        <TextContent :content="article?.content" />
         <footer class="content-footer">
             <div class="footer-container">
                 <div class="author-infos">
@@ -59,7 +59,7 @@ async function toggleFavorite() {
     if (!article?.id) return;
 
     try {
-        const response = await fetch('/profile/favorites/toggle', { 
+        const response = await fetch('/profile/favorites/toggle', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -73,8 +73,8 @@ async function toggleFavorite() {
         const data = await response.json();
 
         if (response.ok) {
-            isFilled.value = data.is_favorited; 
-            
+            isFilled.value = data.is_favorited;
+
             console.log('Favoris mis à jour. État actuel:', data.is_favorited ? 'Favori' : 'Non favori');
         } else {
             console.error('Erreur lors de la mise à jour des favoris:', data.error);

@@ -6,9 +6,10 @@
                     <img :src="props.article.image ? `/storage/${props.article.image}` : 'https://via.placeholder.com/310x169'"
                         :alt="props.article.title" />
                 </div>
-                <h1 ref="titleRef" class="title"><span class="highlight">{{ props.article.title }}</span></h1>
+                <h1 ref="titleRef" class="title"><span class="highlight">{{ props.article.selected_words }}</span></h1>
             </div>
-            <p class="external-title" v-if="props.article.subtitle">{{ props.article.subtitle }}</p>
+            <p class="external-title">{{ props.article.title }}</p>
+            <p>{{ props.article.source_title }}</p>
         </div>
 
         <div class="content-container-wrapper">
@@ -36,6 +37,7 @@ interface Article {
     source_url?: string;
     category?: string[];
     published_at?: string;
+    selected_words?: string;
 }
 
 const props = defineProps<{
