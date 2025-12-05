@@ -131,7 +131,10 @@ class ArticleSeeder extends Seeder
         ];
 
         foreach ($articles as $data) {
-            Article::create($data);
+            Article::firstOrCreate(
+                ['title' => $data['title']],
+                $data
+            );
         }
 
         $this->command->info("Articles insérés avec succès !");
