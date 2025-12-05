@@ -24,7 +24,7 @@
     @endif
 </head>
 
-<body>
+<body style="background-color: #FD494A; color: #FFFFFF;">
     <div id="app">
         <navbar color1="#FD494A" color2="#B8FF93"></navbar>
         <article-component :article='@json($article)'></article-component>

@@ -7,12 +7,13 @@ import Article from './components/sections/Article.vue';
 import BottomNav from './components/sections/BottomNav.vue';
 import SearchPage from './components/sections/SearchPage.vue';
 import FavoritePage from './components/sections/FavoritePage.vue';
-
 import CreateArticle from './components/CreateArticle.vue';
 import UpdateProfileForm from './components/UpdateProfileForm.vue';
+import OnboardingPopup from "./components/OnBoarding.vue";
 
 const app = createApp({});
 
+app.component("onboarding-popup", OnboardingPopup);
 app.component('navbar', Navbar);
 app.component('news', News);
 app.component('categories', Categories);

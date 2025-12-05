@@ -70,7 +70,7 @@ const shouldShowCategory = (category: string) => {
 
 const readUrlFilters = () => {
   const params = new URLSearchParams(window.location.search);
-  const catQuery = params.getAll('cat'); 
+  const catQuery = params.getAll('cat');
   activeCategories.value = catQuery.length ? catQuery : null;
 };
 readUrlFilters();
@@ -143,6 +143,7 @@ const updateFilters = (cats: string[]) => {
             outline: none;
             transition: border-color 0.2s ease;
             background-color: $white;
+            color: $black;
 
             &::placeholder {
                 color: $light-blue;

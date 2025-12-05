@@ -3,9 +3,9 @@
         <a href="/" class="logo-container" @click.prevent="triggerAnimation">
             <LogoAnimated ref="logoRef" class="logo" :color1="color1" :color2="color2" />
         </a>
-        <a href="/" class="onboarding-link">
+        <button class="onboarding-link" @click="openOnboarding">
             <Question />
-        </a>
+        </button>
     </nav>
 </template>
 
@@ -25,6 +25,10 @@ const triggerAnimation = () => {
     if (logoRef.value) {
         logoRef.value.animate();
     }
+};
+
+const openOnboarding = () => {
+    window.dispatchEvent(new Event('open-onboarding'));
 };
 </script>
 
@@ -47,6 +51,10 @@ const triggerAnimation = () => {
     }
 
     .onboarding-link {
+        cursor: pointer;
+        background: none;
+        border: none;
+
         svg {
             width: toRem(24);
             margin: toRem(8);

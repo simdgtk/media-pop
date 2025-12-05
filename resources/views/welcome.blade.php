@@ -28,6 +28,7 @@
         <news title="{{ $newsTitle }}"></news>
         <categories></categories>
         <navbar-bottom></navbar-bottom>
+        <onboarding-popup></onboarding-popup>
     </div>
 </body>
 
