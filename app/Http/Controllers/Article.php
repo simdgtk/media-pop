@@ -16,7 +16,7 @@ class Article extends Controller
             ->get()
             ->unique(fn($item) => trim(mb_strtolower($item->title)))
             ->values();
-        
+
         return view('articles', ['articles' => $articles]);
     }
 
@@ -212,7 +212,7 @@ class Article extends Controller
 
     public function show($id)
     {
-        $article = Article::with('auteur')->find($id);
+        $article = ArticleBdd::with('auteur')->find($id);
 
         if (!$article) {
             return response()->json(['message' => 'Article non trouvé'], 404);

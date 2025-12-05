@@ -15,6 +15,8 @@ class Auteur extends Model
         'image',
     ];
 
+    protected $appends = ['image_url'];
+
     public function articles()
     {
         return $this->hasMany(Article::class, 'author', 'id');
