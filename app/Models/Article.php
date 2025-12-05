@@ -26,6 +26,8 @@ class Article extends Model
         'selected_words',
     ];
 
+    protected $appends = ['image_url'];
+
     protected function casts(): array
     {
         return [

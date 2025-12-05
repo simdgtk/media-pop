@@ -5,7 +5,7 @@
         <div class="footer-container">
             <div class="author-infos">
                 <figure class="image-container">
-                    <img :src="article.auteur?.image ? `/storage/${article.auteur.image}` : 'default-author.jpg'" :alt="article.auteur?.nom ?? 'Auteur inconnu'" />
+                    <img :src="article.auteur?.image_url ?? '/images/default-author.jpg'" :alt="article.auteur?.nom ?? 'Auteur inconnu'" />
                 </figure>
                 <address class="author">
                     <strong>{{ article.auteur?.nom ?? 'Auteur inconnu' }}</strong>

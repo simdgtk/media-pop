@@ -13,7 +13,6 @@ Route::get('/', function () {
     return view('welcome', ['newsTitle' => $newsTitle]);
 });
 
-Route::get('/articles/{id}', [Article::class, 'show']);
 Route::get('/article-test/{id}', function ($id) {
     $article = ArticleModel::with('auteur')->findOrFail($id);
     return view('article-test', ['article' => $article]);
@@ -46,6 +45,7 @@ Route::middleware('auth')->group(function () {
 Route::post('/article', [Article::class, 'store']);
 Route::get('/articles', [Article::class, 'index']);
 Route::get('/articles/latest', [Article::class, 'latest']);
+Route::get('/articles/{id}', [Article::class, 'show']);
 Route::delete('/article/{id}', [Article::class, 'destroy']);
 
 require __DIR__.'/auth.php';
