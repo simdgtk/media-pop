@@ -23,13 +23,13 @@ Route::get('/search', function () {
     return view('search');
 });
 
-Route::get('/favorite', function () {
-    return view('favorite');
-})->middleware(['auth', 'verified'])->name('favorite');
+// Route::get('/favorite', function () {
+//     return view('favorite');
+// })->middleware(['auth', 'verified'])->name('favorite');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/article/create', [Article::class, 'createVue'])
     ->middleware(['auth', 'verified', \App\Http\Middleware\EnsureUserIsAdmin::class])
@@ -39,14 +39,23 @@ Route::get('/auteurs', function () {
     return response()->json(Auteur::all(['id', 'nom']));
 });
 
-
-
 Route::middleware('auth')->group(function () {
     Route::get('/profile', function () {
         return view('profile-vue');
     })->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::get('/profile/favorites', [ProfileController::class, 'getFavorites'])->name('profile.favorites'); 
+    Route::post('/profile/favorites/toggle', [ProfileController::class, 'toggleFavorite'])->name('profile.favorites.toggle');
+    
+    Route::get('/favorite', function () {
+        return view('favorite');
+    })->name('favorite');
+    
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
 });
 
 Route::post('/article', [Article::class, 'store']);

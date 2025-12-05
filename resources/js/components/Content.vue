@@ -14,7 +14,7 @@
                     </address>
                 </div>
                 <div class="buttons">
-                    <Button class="share-button" text="like" reverse @click="isFilled = !isFilled">
+                    <Button class="share-button" text="like" reverse @click="toggleFavorite">
                         <template #icon>
                             <HeartBold :fill="isFilled" />
                         </template>
@@ -31,7 +31,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import TextContent from './TextContent.vue';
 import Button from '../Button.vue';
 import Share from './icons/Share.vue';
@@ -42,6 +42,7 @@ const isFilled = ref(false);
 
 const props = defineProps<{
     article?: {
+        id: number,
         title: string,
         content: string,
         auteur?: {
@@ -53,6 +54,47 @@ const props = defineProps<{
 }>();
 
 const article = props.article;
+
+async function toggleFavorite() {
+    if (!article?.id) return;
+
+    try {
+        const response = await fetch('/profile/favorites/toggle', { 
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                // Utiliser le jeton CSRF pour les requêtes web/POST
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || ''
+            },
+            body: JSON.stringify({ article_id: article.id })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            isFilled.value = data.is_favorited; 
+            
+            console.log('Favoris mis à jour. État actuel:', data.is_favorited ? 'Favori' : 'Non favori');
+        } else {
+            console.error('Erreur lors de la mise à jour des favoris:', data.error);
+        }
+    } catch (err) {
+        console.error("Erreur de connexion:", err);
+    }
+}
+
+
+onMounted(() => {
+    if (article && article.id) {
+        fetch('/profile/favorites', { headers: { 'Accept': 'application/json' } })
+            .then(res => res.json())
+            .then(data => {
+                isFilled.value = data.favorites?.includes(article.id) || false;
+            })
+            .catch(err => console.error("Erreur de récupération des favoris initiaux:", err));
+    }
+});
 
 </script>
 

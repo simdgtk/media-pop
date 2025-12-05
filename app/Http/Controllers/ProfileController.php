@@ -57,4 +57,44 @@ class ProfileController extends Controller
 
         return Redirect::to('/');
     }
+
+    /**
+     * Update the user's favorites.
+     */
+    public function toggleFavorite(Request $request): \Illuminate\Http\JsonResponse
+    {
+        $user = $request->user();
+        $articleId = (int) $request->input('article_id');
+
+        if (!$articleId) {
+            return response()->json(['error' => 'Article ID manquant'], 400);
+        }
+        
+        $favorites = $user->favorites ?? [];
+        
+        $isFavorited = in_array($articleId, $favorites);
+
+        if ($isFavorited) {
+            $favorites = array_values(array_diff($favorites, [$articleId]));
+        } else {
+            $favorites[] = $articleId;
+        }
+
+        $user->favorites = $favorites;
+        $user->save();
+
+        return response()->json([
+            'favorites' => $user->favorites,
+            'is_favorited' => !$isFavorited, // L'état après la modification
+            'status' => 'success'
+        ]);
+    }
+
+    public function getFavorites(Request $request): \Illuminate\Http\JsonResponse
+    {
+        $user = $request->user();
+        return response()->json([
+            'favorites' => $user->favorites ?? [],
+        ]);
+    }
 }
