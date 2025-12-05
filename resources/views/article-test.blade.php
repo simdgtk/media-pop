@@ -29,6 +29,7 @@
         <navbar color1="#FD494A" color2="#B8FF93"></navbar>
         <article-component :article='@json($article)'></article-component>
         <navbar-bottom></navbar-bottom>
+        <onboarding-popup></onboarding-popup>
     </div>
 </body>
 

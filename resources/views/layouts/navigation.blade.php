@@ -6,7 +6,6 @@
                     <x-slot name="trigger">
                         <button>
                             <div>{{ Auth::user()->name }}</div>
-
                     </x-slot>
 
                     <x-slot name="content">
@@ -26,12 +25,6 @@
                         </form>
                     </x-slot>
                 </x-dropdown>
-            </div>
-
-            <!-- Hamburger -->
-            <div>
-                <button @click="open = ! open">
-                </button>
             </div>
         </div>
     </div>

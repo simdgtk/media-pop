@@ -24,7 +24,7 @@ class ProfileController extends Controller
     /**
      * Update the user's profile information.
      */
-    public function update(ProfileUpdateRequest $request): RedirectResponse
+    public function update(ProfileUpdateRequest $request)
     {
         $request->user()->fill($request->validated());
 
@@ -34,15 +34,19 @@ class ProfileController extends Controller
 
         $request->user()->save();
 
+        if ($request->wantsJson()) {
+            return response()->json(['message' => 'Profil mis à jour avec succès']);
+        }
+
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
 
     /**
      * Delete the user's account.
      */
-    public function destroy(Request $request): RedirectResponse
+    public function destroy(Request $request)
     {
-        $request->validateWithBag('userDeletion', [
+        $validated = $request->validate([
             'password' => ['required', 'current_password'],
         ]);
 
@@ -54,6 +58,10 @@ class ProfileController extends Controller
 
         $request->session()->invalidate();
         $request->session()->regenerateToken();
+
+        if ($request->wantsJson()) {
+            return response()->json(['message' => 'Compte supprimé']);
+        }
 
         return Redirect::to('/');
     }

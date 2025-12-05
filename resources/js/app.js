@@ -10,6 +10,7 @@ import FavoritePage from './components/sections/FavoritePage.vue';
 import CreateArticle from './components/CreateArticle.vue';
 import UpdateProfileForm from './components/UpdateProfileForm.vue';
 import OnboardingPopup from "./components/OnBoarding.vue";
+import LoginForm from './components/LoginForm.vue';
 
 const app = createApp({});
 
@@ -23,6 +24,7 @@ app.component("search-page", SearchPage);
 app.component("favorite-page", FavoritePage);
 app.component("create-article", CreateArticle);
 app.component("update-profile-form", UpdateProfileForm);
+app.component("login-form", LoginForm);
 app.mount('#app');
 import Alpine from 'alpinejs';
 

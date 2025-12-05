@@ -27,6 +27,7 @@
         <navbar color1="#4F49FD" color2="#B8FF93"></navbar>
         <navbar-bottom></navbar-bottom>
         <favorite-page></favorite-page>
+        <onboarding-popup></onboarding-popup>
     </div>
 </body>
 

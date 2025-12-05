@@ -39,7 +39,7 @@ const openOnboarding = () => {
     align-items: center;
     @extend %container;
 
-    margin-top: toRem(20);
+    padding-top: toRem(20);
     padding-right: toRem(20);
 
     .logo-container {

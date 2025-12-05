@@ -1,37 +1,35 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+    <title>{{ config('app.name', 'Laravel') }}</title>
 
-        <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
-        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-        <link rel="shortcut icon" href="/favicon.ico" />
-        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-        <meta name="apple-mobile-web-app-title" content="Mopop" />
-        <link rel="manifest" href="/site.webmanifest" />
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
-        <!-- Scripts -->
-        @vite(['resources/css/main.scss', 'resources/js/app.js'])
-    </head>
-    <body>
-        <div>
-            <div>
-                <a href="/">
-                    <x-application-logo />
-                </a>
-            </div>
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="Mopop" />
+    <link rel="manifest" href="/site.webmanifest" />
 
-            <div>
-                {{ $slot }}
-            </div>
-        </div>
-    </body>
+    @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
+    @vite(['resources/css/main.scss', 'resources/js/app.js'])
+    @endif
+</head>
+
+<body>
+    <div id="app" style="background-color: #FFF; color: #4400FF;">
+        <navbar color1="#FFF" color2="#4400FF"></navbar>
+        {{ $slot }}
+        <navbar-bottom></navbar-bottom>
+        <onboarding-popup></onboarding-popup>
+    </div>
+</body>
+
 </html>
