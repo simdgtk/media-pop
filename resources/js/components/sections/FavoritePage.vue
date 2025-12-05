@@ -8,7 +8,13 @@
                     <h3 class="title-extended">{{ categoryNames[category] }}</h3>
                     <div class="border" aria-hidden="true" role="presentation"></div>
                 </div>
-                <Carousel :category="category" :bgIcon="false" :searchQuery="searchQuery" @update-count="updateCategoryCount"/>
+                <Carousel
+                    :category="category"
+                    :bgIcon="false"
+                    :articles="articlesByCategory[category]"
+                    :favoriteIds="favorites"
+                    :onlyFavorites="true"
+                />
             </template>
         </template>
 
@@ -18,48 +24,64 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import Carousel from '../Carousel.vue';
 import MopopIcon from '../icons/MopopIcon.vue';
 
-const activeCategories = ref<string[] | null>(null);
-const searchQuery = ref('');
-const isOpen = ref(false);
-
 const categories = ['actualite', 'cinema', 'culture', 'internet', 'musique', 'sport'];
 const categoryNames: Record<string, string> = {
-  actualite: 'Actualités',
-  cinema: 'Cinéma',
-  culture: 'Culture',
-  internet: 'Internet',
-  musique: 'Musique',
-  sport: 'Sport'
+    actualite: 'Actualités',
+    cinema: 'Cinéma',
+    culture: 'Culture',
+    internet: 'Internet',
+    musique: 'Musique',
+    sport: 'Sport'
 };
 
-const hasArticles = ref<Record<string, boolean | null>>({});
-categories.forEach(cat => hasArticles.value[cat] = null);
+const favorites = ref<number[]>([]);
+const articlesByCategory = ref<Record<string, any[]>>({});
+const loading = ref(true);
 
-const updateCategoryCount = ({ category, count }: { category: string, count: number }) => {
-  hasArticles.value[category] = count > 0;
+const fetchFavorites = async () => {
+    try {
+        const res = await fetch('/profile/favorites', { credentials: 'same-origin' });
+        if (res.ok) {
+            const data = await res.json();
+            favorites.value = data.favorites || [];
+        } else {
+            favorites.value = [];
+        }
+    } catch {
+        favorites.value = [];
+    }
 };
+
+const fetchArticles = async () => {
+    for (const category of categories) {
+        try {
+            const res = await fetch(`/articles/latest?category=${category}`, { credentials: 'same-origin' });
+            if (res.ok) {
+                const data = await res.json();
+                // Filtrer uniquement les articles favoris
+                articlesByCategory.value[category] = data.filter((a: any) => favorites.value.includes(a.id));
+            } else {
+                articlesByCategory.value[category] = [];
+            }
+        } catch {
+            articlesByCategory.value[category] = [];
+        }
+    }
+    loading.value = false;
+};
+
+onMounted(async () => {
+    await fetchFavorites();
+    await fetchArticles();
+});
 
 const shouldShowCategory = (category: string) => {
-  const active = activeCategories.value;
-  const isActive = !active || active.includes(category) || active.includes('all');
-  const has = hasArticles.value[category];
-  return isActive && (has === null || has === true);
+    return articlesByCategory.value[category] && articlesByCategory.value[category].length > 0;
 };
-
-// const readUrlFilters = () => {
-//   const params = new URLSearchParams(window.location.search);
-//   const catQuery = params.getAll('cat'); 
-//   activeCategories.value = catQuery.length ? catQuery : null;
-// };
-// readUrlFilters();
-
-// const updateFilters = (cats: string[]) => {
-//   activeCategories.value = cats;
-// };
 </script>
 
 <style lang="scss" scoped>

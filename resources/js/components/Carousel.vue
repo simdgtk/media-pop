@@ -22,6 +22,7 @@
 </template>
 
 <script lang="ts" setup>
+
 import emblaCarouselVue from 'embla-carousel-vue'
 import { ref, onMounted, computed, watch, nextTick } from 'vue'
 import Mo from './icons/Mo.vue'
@@ -41,14 +42,20 @@ const props = defineProps<{
     category?: string | null
     bgIcon?: boolean
     searchQuery?: string
+    articles?: ArticleData[]
+    favoriteIds?: number[]
+    onlyFavorites?: boolean
 }>()
 
 const bgIcon = props.bgIcon ?? false;
-
 const [emblaRef] = emblaCarouselVue()
 const articles = ref<ArticleData[]>([])
 
+// Si la prop articles est fournie, on l'utilise directement
+const usePropArticles = computed(() => Array.isArray(props.articles));
+
 const fetchLatest = async () => {
+    if (usePropArticles.value) return;
     try {
         const params = new URLSearchParams();
         if (props.category) params.append('category', props.category);
@@ -68,7 +75,19 @@ const fetchLatest = async () => {
     }
 }
 
-const filteredArticles = computed(() => articles.value);
+const filteredArticles = computed(() => {
+    let list: ArticleData[] = [];
+    if (usePropArticles.value) {
+        list = props.articles ?? [];
+    } else {
+        list = articles.value;
+    }
+    // Filtrer uniquement les articles favoris si onlyFavorites est true
+    if (props.onlyFavorites && Array.isArray(props.favoriteIds) && props.favoriteIds.length > 0) {
+        return list.filter(a => props.favoriteIds!.includes(a.id));
+    }
+    return list;
+});
 
 watch(filteredArticles, (newArticles) => {
   const count = newArticles?.length || 0;
