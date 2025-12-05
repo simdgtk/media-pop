@@ -188,6 +188,7 @@ const logout = async () => {
     align-items: center;
     background: $red;
     border-radius: 0 0 toRem(24) toRem(24);
+    padding: toRem(24);
     padding-top: toRem(42);
 
     .avatar {
