@@ -77,6 +77,7 @@ function choose(tab: string) {
     padding: toRem(12) toRem(28);
     z-index: 10;
     box-shadow: 0 toRem(-6) toRem(10) 0 rgba(44, 0, 166, 0.2);
+    padding-bottom: toRem(24);
 
     .icon {
         display: flex;

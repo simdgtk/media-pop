@@ -337,7 +337,7 @@ const submitForm = async () => {
         });
 
         if (response.ok) {
-            window.location.href = '/articles';
+            window.location.href = '/';
         } else {
             console.error('Erreur lors de la création de l\'article');
         }

@@ -100,6 +100,7 @@ const titleRef = ref<HTMLElement | null>(null);
 
     .external-title {
         margin-top: toRem(42);
+        margin-bottom: toRem(24);
         font-size: toRem(28);
         font-weight: 700;
         line-height: 100%;

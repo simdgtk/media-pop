@@ -180,12 +180,11 @@ onMounted(fetchLatest);
 
     .article-names {
         display: flex;
-        flex-direction: column;
-        gap: toRem(4);
+        flex-direction: column-reverse;
+        gap: toRem(8);
         font-family: 'Instrument Sans', sans-serif;
 
         .external-article-name {
-            font-weight: 700;
             font-size: toRem(14);
             line-height: 110%;
             margin-bottom: toRem(4);
@@ -200,8 +199,6 @@ onMounted(fetchLatest);
         .article-name {
             font-weight: 700;
             font-size: toRem(14);
-            font-style: italic;
-            text-decoration: underline;
             text-decoration-thickness: toRem(1);
             text-underline-offset: toRem(2);
             line-height: 95%;

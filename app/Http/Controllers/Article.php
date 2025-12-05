@@ -128,7 +128,7 @@ class Article extends Controller
             'selected_words' => $selectedWordsString
         ]);
 
-        return redirect('/articles')->with('success', 'Article créé avec succès !');
+        return redirect('/')->with('success', 'Article créé avec succès !');
     }
 
 
