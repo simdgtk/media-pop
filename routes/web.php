@@ -23,6 +23,10 @@ Route::get('/search', function () {
     return view('search');
 });
 
+Route::get('/favorite', function () {
+    return view('favorite');
+})->middleware(['auth', 'verified'])->name('favorite');
+
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');

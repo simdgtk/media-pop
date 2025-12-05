@@ -14,8 +14,8 @@
                 <div role="presentation" aria-hidden="true" class="highlight"></div>
             </div>
         </a>
-        <a href="#" class="icon-container" :class="{ fill: current === 'favorites' }" @click="choose('favorites')">
-            <Heart class="icon" :fill="current === 'favorites'" />
+        <a href="/favorite" class="icon-container" :class="{ fill: current === 'favorite' }" @click="choose('favorite')">
+            <Heart class="icon" :fill="current === 'favorite'" />
             <div class="icon-title">
                 <span class="title-text">favoris</span>
                 <div role="presentation" aria-hidden="true" class="highlight"></div>
@@ -43,7 +43,8 @@ const localSelected = ref<string|null>(null);
 const urlSelected = computed(() => {
     const path = window.location.pathname;
     if (path.startsWith('/search')) return 'search';
-    if (path.startsWith('/favorites')) return 'favorites';
+    if (path.startsWith('/account') || path.startsWith('/favorite')) return 'favorite';
+    // if (path.startsWith('/favorite')) return 'favorite';
     if (path.startsWith('/account') || path.startsWith('/profile')) return 'account';
     return 'home';
 });
