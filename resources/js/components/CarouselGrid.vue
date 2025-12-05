@@ -179,6 +179,7 @@ const filteredArticles = computed(() => articles.value);
 
 .article {
     aspect-ratio: 170 / 112;
+    max-width: toRem(300);
 
     .card {
         background-color: $red;
