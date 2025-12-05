@@ -84,7 +84,7 @@
 
 <script lang="ts" setup>
 import emblaCarouselVue from 'embla-carousel-vue'
-import { ref, onMounted, computed, defineProps } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import Mo from './icons/Mo.vue'
 
 interface ArticleData {
